@@ -76,7 +76,7 @@ export const projects: Project[] = [
       srcSet: `${projectAsset('khayyer', 'thumbnail-640.webp')} 640w, ${projectAsset('khayyer', 'thumbnail.webp')} 1200w`,
       width: 1200,
       height: 675,
-      alt: 'Khayyer donation workflow showing food assessment, donation status, tracking, and communication screens.',
+      alt: 'Khayyer logo and loading screen displayed on a handheld mobile phone.',
     },
     gallery: [
       {
@@ -146,7 +146,7 @@ export const projects: Project[] = [
       srcSet: `${projectAsset('psa-academy', 'thumbnail-640.webp')} 640w, ${projectAsset('psa-academy', 'thumbnail.webp')} 1200w`,
       width: 1200,
       height: 675,
-      alt: 'PSA Academy analytics dashboard presented in a branded project cover.',
+      alt: 'PSA Academy loading screen preparing the academy dashboard.',
     },
     gallery: [
       {
@@ -215,7 +215,7 @@ export const projects: Project[] = [
       srcSet: `${projectAsset('padel-system', 'thumbnail-640.webp')} 640w, ${projectAsset('padel-system', 'thumbnail.webp')} 1200w`,
       width: 1200,
       height: 675,
-      alt: 'Padel System home screen with court booking, next match, reservations, and popular courts.',
+      alt: 'Padelit project cover for court booking, open matches, tournaments, and club management.',
     },
     gallery: [
       [

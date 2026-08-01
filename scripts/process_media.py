@@ -9,7 +9,7 @@ import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,6 +34,9 @@ class ProjectMedia:
     accent: tuple[int, int, int]
     thumbnail_source: str
     gallery: tuple[GalleryItem, ...]
+    thumbnail_treatment: str = "branded"
+    thumbnail_backdrop: tuple[int, int, int] = (7, 16, 31)
+    thumbnail_tint_strength: float = 0.48
     funding_label: str | None = None
     video_source: str | None = None
     video_output: str | None = None
@@ -45,7 +48,10 @@ PROJECTS = (
         title="Khayyer",
         category="Graduation Project · AI & Food Donation",
         accent=(27, 208, 143),
-        thumbnail_source="khayyer_assets/1784253536107.jpeg",
+        thumbnail_source="khayyer_assets/portfolio-thumbnail.png",
+        thumbnail_treatment="supplied",
+        thumbnail_backdrop=(239, 241, 238),
+        thumbnail_tint_strength=0.34,
         funding_label="Funded by ITIDA",
         video_source="khayyer_assets/Khayyer_Portfolio_Demo.mp4",
         video_output="khayyer-demo.mp4",
@@ -60,7 +66,10 @@ PROJECTS = (
         title="PSA Academy",
         category="Sports Management & Analytics",
         accent=(34, 211, 238),
-        thumbnail_source="psa_academy_assets/1781978022287.jpeg",
+        thumbnail_source="psa_academy_assets/portfolio-thumbnail.png",
+        thumbnail_treatment="supplied",
+        thumbnail_backdrop=(10, 136, 139),
+        thumbnail_tint_strength=0.18,
         gallery=(
             GalleryItem("psa_academy_assets/1781978020545.jpeg", "psa-athlete-workout", 480),
             GalleryItem("psa_academy_assets/1781978020699.jpeg", "psa-qr-attendance", 480),
@@ -73,7 +82,10 @@ PROJECTS = (
         title="Padel System",
         category="Booking & Club Management",
         accent=(61, 225, 170),
-        thumbnail_source="padel_system_assets/02-light-home.png",
+        thumbnail_source="padel_system_assets/portfolio-thumbnail.png",
+        thumbnail_treatment="supplied",
+        thumbnail_backdrop=(3, 27, 20),
+        thumbnail_tint_strength=0.58,
         video_source="padel_system_assets/padelit-demo.mp4",
         video_output="padel-demo.mp4",
         gallery=(
@@ -183,6 +195,40 @@ def fit_contain(source: Image.Image, max_size: tuple[int, int]) -> Image.Image:
     return copy
 
 
+def supplied_thumbnail(project: ProjectMedia) -> Image.Image:
+    """Place a supplied portrait/square cover intact on a derived 16:9 backdrop."""
+    with Image.open(ROOT / project.thumbnail_source) as opened:
+        source = ImageOps.exif_transpose(opened).convert("RGB")
+    backdrop = ImageOps.fit(source, (1600, 900), method=Image.Resampling.LANCZOS)
+    backdrop = backdrop.filter(ImageFilter.GaussianBlur(radius=54))
+    tint = Image.new("RGB", backdrop.size, project.thumbnail_backdrop)
+    canvas = Image.blend(backdrop, tint, project.thumbnail_tint_strength)
+
+    foreground = fit_contain(source, (1240, 820))
+    x = (canvas.width - foreground.width) // 2
+    y = (canvas.height - foreground.height) // 2
+    pad = 18
+    draw = ImageDraw.Draw(canvas, "RGBA")
+    draw.rounded_rectangle(
+        (
+            x - pad + 7,
+            y - pad + 18,
+            x + foreground.width + pad + 7,
+            y + foreground.height + pad + 18,
+        ),
+        radius=38,
+        fill=(0, 0, 0, 74),
+    )
+    canvas.paste(foreground, (x, y), rounded_mask(foreground.size, 24))
+    draw.rounded_rectangle(
+        (x - 1, y - 1, x + foreground.width, y + foreground.height),
+        radius=24,
+        outline=(255, 255, 255, 54),
+        width=2,
+    )
+    return canvas
+
+
 def wrap_title(draw: ImageDraw.ImageDraw, title: str, title_font: ImageFont.FreeTypeFont, max_width: int) -> list[str]:
     words = title.split()
     lines: list[str] = []
@@ -200,6 +246,9 @@ def wrap_title(draw: ImageDraw.ImageDraw, title: str, title_font: ImageFont.Free
 
 
 def thumbnail(project: ProjectMedia) -> Image.Image:
+    if project.thumbnail_treatment == "supplied":
+        return supplied_thumbnail(project)
+
     canvas = gradient_background((1600, 900), project.accent)
     draw = ImageDraw.Draw(canvas, "RGBA")
 
