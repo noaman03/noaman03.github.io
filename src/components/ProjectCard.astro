@@ -21,7 +21,7 @@ const { project, lead = false, eager = false } = Astro.props;
       loading={eager ? 'eager' : 'lazy'}
       fetchpriority={eager ? 'high' : 'auto'}
       sizes={lead
-        ? '(min-width: 768px) 55vw, 100vw'
+        ? '(min-width: 900px) 55vw, 100vw'
         : '(min-width: 768px) 50vw, 100vw'}
     />
     {

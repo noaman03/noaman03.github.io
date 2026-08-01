@@ -198,11 +198,34 @@ def fit_contain(source: Image.Image, max_size: tuple[int, int]) -> Image.Image:
 def supplied_thumbnail(project: ProjectMedia) -> Image.Image:
     """Place a supplied portrait/square cover intact on a derived 16:9 backdrop."""
     with Image.open(ROOT / project.thumbnail_source) as opened:
-        source = ImageOps.exif_transpose(opened).convert("RGB")
+        source_rgba = ImageOps.exif_transpose(opened).convert("RGBA")
+
+    flattened = Image.new("RGBA", source_rgba.size, (*project.thumbnail_backdrop, 255))
+    flattened.alpha_composite(source_rgba)
+    source = flattened.convert("RGB")
     backdrop = ImageOps.fit(source, (1600, 900), method=Image.Resampling.LANCZOS)
     backdrop = backdrop.filter(ImageFilter.GaussianBlur(radius=54))
     tint = Image.new("RGB", backdrop.size, project.thumbnail_backdrop)
     canvas = Image.blend(backdrop, tint, project.thumbnail_tint_strength)
+
+    has_transparency = source_rgba.getchannel("A").getextrema()[0] < 255
+    if has_transparency:
+        foreground = source_rgba.copy()
+        foreground.thumbnail((1240, 840), Image.Resampling.LANCZOS)
+        x = (canvas.width - foreground.width) // 2
+        y = (canvas.height - foreground.height) // 2
+
+        alpha = foreground.getchannel("A")
+        shadow_alpha = alpha.filter(ImageFilter.GaussianBlur(radius=20)).point(
+            lambda value: round(value * 0.34)
+        )
+        shadow = Image.new("RGBA", foreground.size, (0, 0, 0, 0))
+        shadow.putalpha(shadow_alpha)
+
+        composed = canvas.convert("RGBA")
+        composed.alpha_composite(shadow, (x + 8, y + 18))
+        composed.alpha_composite(foreground, (x, y))
+        return composed.convert("RGB")
 
     foreground = fit_contain(source, (1240, 820))
     x = (canvas.width - foreground.width) // 2

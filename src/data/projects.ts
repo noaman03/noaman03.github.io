@@ -76,7 +76,7 @@ export const projects: Project[] = [
       srcSet: `${projectAsset('khayyer', 'thumbnail-640.webp')} 640w, ${projectAsset('khayyer', 'thumbnail.webp')} 1200w`,
       width: 1200,
       height: 675,
-      alt: 'Khayyer logo and loading screen displayed on a handheld mobile phone.',
+      alt: 'Khayyer logo and loading screen displayed in a mobile phone frame.',
     },
     gallery: [
       {

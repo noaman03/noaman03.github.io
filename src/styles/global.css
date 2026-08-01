@@ -1331,19 +1331,6 @@ html[data-theme='light'] .button:not(.button-secondary):not(.button-ghost) {
 
   .project-card-lead {
     grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(22rem, 0.85fr);
-  }
-
-  .project-card-lead .project-card-media {
-    min-height: 100%;
-    aspect-ratio: auto;
-  }
-
-  .project-card-lead .project-card-media picture,
-  .project-card-lead .project-card-media img {
-    position: absolute;
-    inset: 0;
   }
 
   .project-card-lead .project-card-body {
@@ -1369,6 +1356,22 @@ html[data-theme='light'] .button:not(.button-secondary):not(.button-ghost) {
 }
 
 @media (min-width: 900px) {
+  .project-card-lead {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(22rem, 0.85fr);
+  }
+
+  .project-card-lead .project-card-media {
+    min-height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .project-card-lead .project-card-media picture,
+  .project-card-lead .project-card-media img {
+    position: absolute;
+    inset: 0;
+  }
+
   .desktop-nav {
     display: flex;
   }
