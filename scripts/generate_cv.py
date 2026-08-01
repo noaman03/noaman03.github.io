@@ -192,6 +192,7 @@ def build_pdf(data: dict) -> None:
             f"{html.escape(data['location'])} | "
             f"<link href='mailto:{html.escape(data['email'])}' color='{LINK.hexval()}'>{html.escape(data['email'])}</link> | "
             f"<link href='https://{html.escape(data['github'])}' color='{LINK.hexval()}'>{html.escape(data['github'])}</link> | "
+            f"<link href='{html.escape(data['portfolio'])}' color='{LINK.hexval()}'>{html.escape(data['portfolio'])}</link> | "
             f"<link href='https://www.{html.escape(data['linkedin'])}' color='{LINK.hexval()}'>LinkedIn</link>",
             styles["contact"],
         ),
@@ -329,7 +330,7 @@ def build_html(data: dict) -> None:
   <header>
     <h1>{html.escape(data['name']).upper()}</h1>
     <h2>{html.escape(data['title'])}</h2>
-    <p class="contact">{html.escape(data['location'])} | <a href="mailto:{html.escape(data['email'])}">{html.escape(data['email'])}</a> | <a href="https://{html.escape(data['github'])}">{html.escape(data['github'])}</a> | <a href="https://www.{html.escape(data['linkedin'])}">LinkedIn</a></p>
+    <p class="contact">{html.escape(data['location'])} | <a href="mailto:{html.escape(data['email'])}">{html.escape(data['email'])}</a> | <a href="https://{html.escape(data['github'])}">{html.escape(data['github'])}</a> | <a href="{html.escape(data['portfolio'])}">{html.escape(data['portfolio'])}</a> | <a href="https://www.{html.escape(data['linkedin'])}">LinkedIn</a></p>
   </header>
   <section><h2>Professional Summary</h2><p>{html.escape(data['summary'])}</p></section>
   <section><h2>Education</h2>{education_html}</section>
