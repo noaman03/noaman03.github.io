@@ -1,0 +1,123 @@
+---
+import type { Project } from '../data/projects';
+import OptimizedPicture from './OptimizedPicture.astro';
+
+type Props = {
+  project: Project;
+  lead?: boolean;
+  eager?: boolean;
+};
+
+const { project, lead = false, eager = false } = Astro.props;
+---
+
+<article
+  class:list={['project-card', { 'project-card-lead': lead }]}
+  id={`project-${project.slug}`}
+>
+  <div class="project-card-media">
+    <OptimizedPicture
+      image={project.thumbnail}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      sizes={lead
+        ? '(min-width: 768px) 55vw, 100vw'
+        : '(min-width: 768px) 50vw, 100vw'}
+    />
+    {
+      project.labels.length > 0 && (
+        <div class="project-labels" aria-label="Project labels">
+          {project.labels.map((label) => (
+            <span class="project-label">{label}</span>
+          ))}
+        </div>
+      )
+    }
+  </div>
+  <div class="project-card-body">
+    <div class="project-meta">
+      <span class="project-category">{project.category}</span>
+      <span>{project.status}</span>
+    </div>
+    <h3>{project.name}</h3>
+    <p class="project-summary">{project.summary}</p>
+    <ul class="stack-list" aria-label={`${project.name} technologies`}>
+      {project.stack.slice(0, 6).map((technology) => <li>{technology}</li>)}
+    </ul>
+    <ul class="highlight-list">
+      {
+        project.highlights
+          .slice(0, lead ? 4 : 3)
+          .map((highlight) => <li>{highlight}</li>)
+      }
+    </ul>
+    {
+      project.funding && (
+        <p class="project-funding">
+          {project.funding.statement}{' '}
+          <a
+            href={project.funding.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn about ITIDA
+          </a>
+        </p>
+      )
+    }
+    {
+      project.disclaimer && (
+        <p class="project-disclaimer">{project.disclaimer}</p>
+      )
+    }
+    <div class="project-actions" aria-label={`${project.name} actions`}>
+      <a class="button" href={`/projects/${project.slug}/`}>View Details</a>
+      {
+        project.video && (
+          <button
+            class="button button-secondary"
+            type="button"
+            data-video-trigger
+            data-project={project.name}
+            data-video={project.video}
+            data-video-type={project.videoType}
+            data-poster={project.thumbnail.src}
+          >
+            Watch Demo
+          </button>
+        )
+      }
+      <button
+        class="button button-secondary"
+        type="button"
+        data-gallery-trigger
+        data-project={project.name}
+        data-gallery={JSON.stringify(project.gallery)}
+      >
+        View Screenshots
+      </button>
+      <a
+        class="button button-ghost"
+        href={project.repository}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`View ${project.name} source code on GitHub (opens in a new tab)`}
+      >
+        Source Code <span aria-hidden="true">↗</span>
+      </a>
+      {
+        project.liveUrl && (
+          <a
+            class="button button-ghost"
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open ${project.name} live web application (opens in a new tab)`}
+          >
+            Open Live App <span aria-hidden="true">↗</span>
+          </a>
+        )
+      }
+    </div>
+  </div>
+</article>

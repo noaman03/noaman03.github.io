@@ -1,0 +1,97 @@
+{
+  "name": "Ahmed Mohamed Noaman",
+  "title": "Flutter Developer & Mobile Application Engineer",
+  "location": "Alexandria, Egypt",
+  "email": "noamana455@gmail.com",
+  "github": "github.com/noaman03",
+  "linkedin": "linkedin.com/in/ahmed-noaman-07ab162b4",
+  "summary": "Computer Engineering student and Flutter developer focused on secure, scalable cross-platform applications. Completed AMIT Learning's Flutter Diploma with a 95% grade. Project experience includes feature-first Clean Architecture, modern state management, Firebase and Supabase integration, local persistence, real-time systems, computer vision and blockchain research, and native iOS development with Swift.",
+  "education": [
+    {
+      "degree": "B.Sc. Computer Engineering",
+      "school": "Arab Academy for Science, Technology & Maritime Transport",
+      "period": "2021 - Expected 2026"
+    },
+    {
+      "degree": "High School Diploma",
+      "school": "Sidi Gaber Language School",
+      "period": ""
+    }
+  ],
+  "skills": [
+    {
+      "category": "Mobile Development",
+      "items": "Flutter, Dart, Swift (iOS), native platform integration, responsive UI"
+    },
+    {
+      "category": "Architecture",
+      "items": "Feature-first Clean Architecture, layered UI/domain/data design, SOLID principles, functional programming, Dartz"
+    },
+    {
+      "category": "State Management",
+      "items": "Riverpod, BLoC, Cubit, Provider, GetX"
+    },
+    {
+      "category": "Backend & Data",
+      "items": "Firebase, Supabase Realtime, Cloud Firestore, SQLite, MySQL, Node.js, Express"
+    },
+    {
+      "category": "Integrations",
+      "items": "REST APIs, WebSockets, geolocation, push notifications, QR scanning, biometrics, PDF generation"
+    },
+    {
+      "category": "Security & Tools",
+      "items": "Cisco CyberOps, CCNA, Identity and Access Management, Git, GitHub, Postman, CI/CD, testing"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Khayyer",
+      "category": "Food Donation Platform - Graduation Project - Funded by ITIDA",
+      "description": "A bilingual Flutter application connecting food donors, charitable organizations, and registered recipients through donation, campaign, and coordination workflows.",
+      "stack": "Flutter, GetX, Firebase Authentication, Cloud Firestore, Firebase Storage, Geolocator",
+      "bullets": [
+        "Structured donor, organization, and recipient experiences with controller, repository, model, service, and view layers.",
+        "Integrated authentication, Firestore records, media uploads, GPS donation capture, bilingual content, and notification setup.",
+        "The graduation-project research scope covers AI food-quality checks and blockchain traceability; the public code snapshot focuses on the application workflow."
+      ]
+    },
+    {
+      "name": "PSA Academy",
+      "category": "Sports Academy Management & Analytics",
+      "description": "A Flutter Web platform for administrators, coaches, and players, covering academy attendance, training, operational records, and reporting.",
+      "stack": "Flutter Web, Firebase, Provider, Cloud Firestore, QR scanning, PDF",
+      "bullets": [
+        "Built role-aware administrator, coach, and player workflows for attendance, training assignments, and work sessions.",
+        "Implemented QR generation and camera scanning for attendance plus PDF report generation and browser downloads.",
+        "Managed payment and expense records within an evolving layered architecture backed by Firebase services."
+      ]
+    },
+    {
+      "name": "Padel System",
+      "category": "Court Booking & Club Management Portfolio Prototype",
+      "description": "A role-oriented Flutter prototype for court discovery, booking records, player activities, and venue-owner operations.",
+      "stack": "Flutter, Firebase, Cloud Firestore, GetX, Riverpod, Geolocator",
+      "bullets": [
+        "Organized player and venue-owner experiences into feature-oriented modules with a mixed GetX and Riverpod state approach.",
+        "Implemented Firestore court discovery, search, and booking-record paths with location-aware dependencies.",
+        "Demonstrated reservation, tournament, open-match, owner-dashboard, and administration workflows while clearly retaining simulated prototype boundaries."
+      ]
+    }
+  ],
+  "certifications": [
+    "Flutter Diploma (Grade: 95%) - AMIT Learning",
+    "Developing iOS Applications with Swift - ITI",
+    "Developing Back-End Apps with Node.js and Express - IBM",
+    "Quality Assurance - Techniques & Methodologies",
+    "Cisco Certified CyberOps Associate (CBROPS) - NTI/Cisco",
+    "CCNAv7: Enterprise Networking, Security, and Automation - Cisco",
+    "CCNAv7: Switching, Routing, and Wireless Essentials - Cisco",
+    "Identity & Access Management - Professional Diploma",
+    "Database Technologies & Services - Professional Diploma",
+    "Artificial Intelligence: Basic Level - WE Certificate",
+    "Cloud Computing - Professional Certificate",
+    "Project Management in Practice - Professional Diploma"
+  ],
+  "languages": ["Arabic: Native", "English: C1+ (Professional communication)"]
+}

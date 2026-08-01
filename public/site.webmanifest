@@ -1,0 +1,21 @@
+{
+  "name": "Ahmed Noaman Portfolio",
+  "short_name": "Ahmed Noaman",
+  "description": "Flutter developer and mobile application engineer portfolio.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07101f",
+  "theme_color": "#07101f",
+  "icons": [
+    {
+      "src": "/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

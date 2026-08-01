@@ -1,0 +1,237 @@
+<dialog
+  class="media-dialog gallery-dialog"
+  aria-labelledby="gallery-dialog-title"
+  data-gallery-dialog
+>
+  <div class="dialog-shell">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">Project gallery</p>
+        <h2 id="gallery-dialog-title" data-gallery-title>
+          Project screenshots
+        </h2>
+      </div>
+      <button
+        class="dialog-close"
+        type="button"
+        aria-label="Close screenshot gallery"
+        data-gallery-close>Close</button
+      >
+    </div>
+    <figure class="gallery-stage">
+      <picture data-gallery-picture>
+        <source type="image/avif" data-gallery-avif />
+        <source type="image/webp" data-gallery-webp />
+        <img data-gallery-image alt="" width="1200" height="675" />
+      </picture>
+      <figcaption data-gallery-caption></figcaption>
+    </figure>
+    <div class="gallery-controls">
+      <button
+        type="button"
+        class="button button-secondary"
+        data-gallery-previous>← Previous</button
+      >
+      <p aria-live="polite" aria-atomic="true" data-gallery-count></p>
+      <button type="button" class="button button-secondary" data-gallery-next
+        >Next →</button
+      >
+    </div>
+  </div>
+</dialog>
+
+<dialog
+  class="media-dialog video-dialog"
+  aria-labelledby="video-dialog-title"
+  data-video-dialog
+>
+  <div class="dialog-shell">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">Application demo</p>
+        <h2 id="video-dialog-title" data-video-title>Project demo</h2>
+      </div>
+      <button
+        class="dialog-close"
+        type="button"
+        aria-label="Close project demo"
+        data-video-close>Close</button
+      >
+    </div>
+    <div class="video-stage">
+      <video controls preload="metadata" playsinline data-video-player>
+        <p>
+          Your browser does not support HTML video.
+          <a data-video-fallback>Open the demo video directly.</a>
+        </p>
+      </video>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  type GalleryImage = {
+    src: string;
+    srcSet?: string;
+    width: number;
+    height: number;
+    alt: string;
+  };
+
+  const galleryDialog = document.querySelector<HTMLDialogElement>(
+    '[data-gallery-dialog]',
+  );
+  const galleryImage = document.querySelector<HTMLImageElement>(
+    '[data-gallery-image]',
+  );
+  const galleryAvif = document.querySelector<HTMLSourceElement>(
+    '[data-gallery-avif]',
+  );
+  const galleryWebp = document.querySelector<HTMLSourceElement>(
+    '[data-gallery-webp]',
+  );
+  const galleryTitle = document.querySelector<HTMLElement>(
+    '[data-gallery-title]',
+  );
+  const galleryCaption = document.querySelector<HTMLElement>(
+    '[data-gallery-caption]',
+  );
+  const galleryCount = document.querySelector<HTMLElement>(
+    '[data-gallery-count]',
+  );
+  const previousButton = document.querySelector<HTMLButtonElement>(
+    '[data-gallery-previous]',
+  );
+  const nextButton = document.querySelector<HTMLButtonElement>(
+    '[data-gallery-next]',
+  );
+  let galleryItems: GalleryImage[] = [];
+  let galleryIndex = 0;
+  let galleryReturnFocus: HTMLElement | null = null;
+
+  const updateGallery = () => {
+    const item = galleryItems[galleryIndex];
+    if (!item || !galleryImage || !galleryAvif || !galleryWebp) return;
+    const avifSrc = item.src.replace(/\.webp$/, '.avif');
+    const avifSrcSet = item.srcSet?.replaceAll('.webp', '.avif');
+    galleryAvif.srcset = avifSrcSet ?? avifSrc;
+    galleryWebp.srcset = item.srcSet ?? item.src;
+    galleryImage.src = item.src;
+    galleryImage.srcset = item.srcSet ?? '';
+    galleryImage.alt = item.alt;
+    galleryImage.width = item.width;
+    galleryImage.height = item.height;
+    if (galleryCaption) galleryCaption.textContent = item.alt;
+    if (galleryCount)
+      galleryCount.textContent = `${galleryIndex + 1} of ${galleryItems.length}`;
+    if (previousButton) previousButton.disabled = galleryItems.length < 2;
+    if (nextButton) nextButton.disabled = galleryItems.length < 2;
+  };
+
+  const moveGallery = (direction: number) => {
+    if (!galleryItems.length) return;
+    galleryIndex =
+      (galleryIndex + direction + galleryItems.length) % galleryItems.length;
+    updateGallery();
+  };
+
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-gallery-trigger]')
+    .forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        try {
+          galleryItems = JSON.parse(
+            trigger.dataset.gallery ?? '[]',
+          ) as GalleryImage[];
+        } catch {
+          galleryItems = [];
+        }
+        if (!galleryItems.length || !galleryDialog) return;
+        galleryIndex = Number(trigger.dataset.galleryStart ?? 0);
+        galleryReturnFocus = trigger;
+        if (galleryTitle)
+          galleryTitle.textContent = `${trigger.dataset.project ?? 'Project'} screenshots`;
+        updateGallery();
+        galleryDialog.showModal();
+        document
+          .querySelector<HTMLButtonElement>('[data-gallery-close]')
+          ?.focus();
+      });
+    });
+
+  previousButton?.addEventListener('click', () => moveGallery(-1));
+  nextButton?.addEventListener('click', () => moveGallery(1));
+  document
+    .querySelector('[data-gallery-close]')
+    ?.addEventListener('click', () => galleryDialog?.close());
+  galleryDialog?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') moveGallery(-1);
+    if (event.key === 'ArrowRight') moveGallery(1);
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      galleryDialog.close();
+    }
+  });
+  galleryDialog?.addEventListener('click', (event) => {
+    if (event.target === galleryDialog) galleryDialog.close();
+  });
+  galleryDialog?.addEventListener('close', () => galleryReturnFocus?.focus());
+
+  const videoDialog = document.querySelector<HTMLDialogElement>(
+    '[data-video-dialog]',
+  );
+  const videoPlayer = document.querySelector<HTMLVideoElement>(
+    '[data-video-player]',
+  );
+  const videoTitle = document.querySelector<HTMLElement>('[data-video-title]');
+  const videoFallback = document.querySelector<HTMLAnchorElement>(
+    '[data-video-fallback]',
+  );
+  let videoReturnFocus: HTMLElement | null = null;
+
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-video-trigger]')
+    .forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const sourceUrl = trigger.dataset.video;
+        if (!sourceUrl || !videoDialog || !videoPlayer) return;
+        videoReturnFocus = trigger;
+        if (videoTitle)
+          videoTitle.textContent = `${trigger.dataset.project ?? 'Project'} demo`;
+        videoPlayer.poster = trigger.dataset.poster ?? '';
+        const source = document.createElement('source');
+        source.src = sourceUrl;
+        source.type = trigger.dataset.videoType ?? 'video/mp4';
+        videoPlayer.prepend(source);
+        if (videoFallback) videoFallback.href = sourceUrl;
+        videoPlayer.load();
+        videoDialog.showModal();
+        document
+          .querySelector<HTMLButtonElement>('[data-video-close]')
+          ?.focus();
+      });
+    });
+
+  const closeVideo = () => videoDialog?.close();
+  document
+    .querySelector('[data-video-close]')
+    ?.addEventListener('click', closeVideo);
+  videoDialog?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeVideo();
+    }
+  });
+  videoDialog?.addEventListener('click', (event) => {
+    if (event.target === videoDialog) closeVideo();
+  });
+  videoDialog?.addEventListener('close', () => {
+    if (videoPlayer) {
+      videoPlayer.pause();
+      videoPlayer.querySelector('source')?.remove();
+      videoPlayer.removeAttribute('src');
+      videoPlayer.load();
+    }
+    videoReturnFocus?.focus();
+  });
+</script>

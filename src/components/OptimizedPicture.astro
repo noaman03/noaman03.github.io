@@ -1,0 +1,40 @@
+---
+import type { ProjectImage } from '../data/projects';
+
+type Props = {
+  image: ProjectImage;
+  class?: string;
+  imageClass?: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  sizes?: string;
+};
+
+const {
+  image,
+  class: className,
+  imageClass,
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  sizes = '100vw',
+} = Astro.props;
+const avifSrc = image.src.replace(/\.webp$/, '.avif');
+const avifSrcSet = image.srcSet?.replaceAll('.webp', '.avif');
+---
+
+<picture class={className}>
+  <source type="image/avif" srcset={avifSrcSet ?? avifSrc} sizes={sizes} />
+  <source type="image/webp" srcset={image.srcSet ?? image.src} sizes={sizes} />
+  <img
+    class={imageClass}
+    src={image.src}
+    srcset={image.srcSet}
+    sizes={sizes}
+    width={image.width}
+    height={image.height}
+    alt={image.alt}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    decoding="async"
+  />
+</picture>

@@ -1,0 +1,33 @@
+---
+import { profile } from '../data/profile';
+---
+
+<footer class="site-footer">
+  <div
+    class="mx-auto grid max-w-7xl gap-10 px-5 py-12 sm:px-8 md:grid-cols-[1fr_auto] lg:px-10"
+  >
+    <div>
+      <a class="footer-name" href="/#home">Ahmed Noaman</a>
+      <p>Flutter Developer & Mobile Application Engineer</p>
+      <p class="footer-location">Alexandria, Egypt</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer links">
+      <a href="/#projects">Projects</a>
+      <a href={profile.github} target="_blank" rel="noopener noreferrer"
+        >GitHub</a
+      >
+      <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"
+        >LinkedIn</a
+      >
+      <a href={`mailto:${profile.email}`}>Email</a>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <div
+      class="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-5 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10"
+    >
+      <p>© {new Date().getFullYear()} Ahmed Mohamed Noaman.</p>
+      <p>Built with Astro, TypeScript, and Tailwind CSS.</p>
+    </div>
+  </div>
+</footer>

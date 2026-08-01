@@ -1,0 +1,167 @@
+---
+import { profile } from '../data/profile';
+
+const navLinks = [
+  ['Home', '/#home'],
+  ['Projects', '/#projects'],
+  ['Skills', '/#skills'],
+  ['About', '/#about'],
+  ['Contact', '/#contact'],
+] as const;
+---
+
+<header class="site-header" data-site-header>
+  <div
+    class="mx-auto flex h-[4.75rem] max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:px-10"
+  >
+    <a
+      class="brand-mark"
+      href="/#home"
+      aria-label="Ahmed Noaman portfolio home"
+    >
+      <span aria-hidden="true">AN</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      {navLinks.map(([label, href]) => <a href={href}>{label}</a>)}
+    </nav>
+
+    <div class="header-actions">
+      <a
+        class="header-social"
+        href={profile.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Ahmed Noaman on GitHub (opens in a new tab)"
+      >
+        GitHub
+      </a>
+      <a
+        class="header-social"
+        href={profile.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Ahmed Noaman on LinkedIn (opens in a new tab)"
+      >
+        LinkedIn
+      </a>
+      <a
+        class="button button-small header-cv"
+        href={profile.cv}
+        download="Ahmed-Mohamed-Noaman-CV.pdf"
+      >
+        Download CV
+      </a>
+      <button
+        class="icon-button theme-toggle"
+        type="button"
+        aria-label="Switch to light theme"
+        aria-pressed="false"
+        data-theme-toggle
+      >
+        <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
+        <span class="theme-icon theme-icon-dark" aria-hidden="true">◐</span>
+      </button>
+      <button
+        class="icon-button menu-toggle"
+        type="button"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-navigation"
+        data-menu-toggle
+      >
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-navigation"
+    class="mobile-navigation"
+    hidden
+    data-mobile-navigation
+  >
+    <nav aria-label="Mobile navigation">
+      {navLinks.map(([label, href]) => <a href={href}>{label}</a>)}
+      <a href={profile.cv} download="Ahmed-Mohamed-Noaman-CV.pdf">Download CV</a
+      >
+      <div class="mobile-socials">
+        <a href={profile.github} target="_blank" rel="noopener noreferrer"
+          >GitHub <span aria-hidden="true">↗</span></a
+        >
+        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"
+          >LinkedIn <span aria-hidden="true">↗</span></a
+        >
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const menuButton =
+    document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const mobileNavigation = document.querySelector<HTMLElement>(
+    '[data-mobile-navigation]',
+  );
+  const themeButton = document.querySelector<HTMLButtonElement>(
+    '[data-theme-toggle]',
+  );
+
+  const closeMenu = () => {
+    if (!menuButton || !mobileNavigation) return;
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.setAttribute('aria-label', 'Open navigation menu');
+    mobileNavigation.hidden = true;
+    header?.classList.remove('menu-is-open');
+  };
+
+  menuButton?.addEventListener('click', () => {
+    if (!mobileNavigation) return;
+    const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+    menuButton.setAttribute('aria-expanded', String(!isOpen));
+    menuButton.setAttribute(
+      'aria-label',
+      isOpen ? 'Open navigation menu' : 'Close navigation menu',
+    );
+    mobileNavigation.hidden = isOpen;
+    header?.classList.toggle('menu-is-open', !isOpen);
+  });
+
+  mobileNavigation
+    ?.querySelectorAll('a')
+    .forEach((link) => link.addEventListener('click', closeMenu));
+  window.addEventListener('keydown', (event) => {
+    if (
+      event.key === 'Escape' &&
+      menuButton?.getAttribute('aria-expanded') === 'true'
+    ) {
+      closeMenu();
+      menuButton.focus();
+    }
+  });
+  window
+    .matchMedia('(min-width: 900px)')
+    .addEventListener('change', (event) => {
+      if (event.matches) closeMenu();
+    });
+
+  const updateThemeButton = () => {
+    if (!themeButton) return;
+    const isLight = document.documentElement.dataset.theme === 'light';
+    themeButton.setAttribute('aria-pressed', String(isLight));
+    themeButton.setAttribute(
+      'aria-label',
+      `Switch to ${isLight ? 'dark' : 'light'} theme`,
+    );
+  };
+
+  updateThemeButton();
+  themeButton?.addEventListener('click', () => {
+    const nextTheme =
+      document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem('portfolio-theme', nextTheme);
+    updateThemeButton();
+  });
+</script>
