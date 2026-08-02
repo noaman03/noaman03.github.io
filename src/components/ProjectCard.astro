@@ -110,6 +110,19 @@ const { project, lead = false, eager = false } = Astro.props;
         Source Code <span aria-hidden="true">↗</span>
       </a>
       {
+        project.apkUrl && (
+          <a
+            class="button button-ghost"
+            href={project.apkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Download ${project.name} Android demo APK (opens in a new tab)`}
+          >
+            Download APK <span aria-hidden="true">↗</span>
+          </a>
+        )
+      }
+      {
         project.liveUrl && (
           <a
             class="button button-ghost"

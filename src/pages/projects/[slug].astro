@@ -22,6 +22,7 @@ const structuredData = {
   description: project.summary,
   url: `${profile.site}/projects/${project.slug}/`,
   codeRepository: project.repository,
+  ...(project.apkUrl ? { downloadUrl: project.apkUrl } : {}),
   author: { '@type': 'Person', name: profile.name },
   operatingSystem: project.slug === 'psa-academy' ? 'Web' : 'Android',
 };
@@ -81,6 +82,19 @@ const structuredData = {
                 rel="noopener noreferrer"
                 >Source Code <span aria-hidden="true">↗</span></a
               >
+              {
+                project.apkUrl && (
+                  <a
+                    class="button button-ghost"
+                    href={project.apkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Download ${project.name} Android demo APK (opens in a new tab)`}
+                  >
+                    Download APK <span aria-hidden="true">↗</span>
+                  </a>
+                )
+              }
               {
                 project.liveUrl && (
                   <a

@@ -48,6 +48,7 @@ const structuredData = [
     description: project.summary,
     url: `${profile.site}/projects/${project.slug}/`,
     codeRepository: project.repository,
+    ...(project.apkUrl ? { downloadUrl: project.apkUrl } : {}),
     author: { '@type': 'Person', name: profile.name },
     operatingSystem: project.slug === 'psa-academy' ? 'Web' : 'Android',
   })),

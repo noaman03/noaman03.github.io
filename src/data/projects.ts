@@ -21,6 +21,7 @@ export type Project = {
   architecture: string;
   repository: string;
   liveUrl?: string;
+  apkUrl?: string;
   video?: string;
   videoType?: string;
   thumbnail: ProjectImage;
@@ -208,6 +209,8 @@ export const projects: Project[] = [
     architecture:
       'Feature-oriented auth, player, and owner modules with a mixed GetX/Riverpod state-management approach.',
     repository: 'https://github.com/noaman03/padel-management-system',
+    apkUrl:
+      'https://github.com/noaman03/padel-management-system/releases/download/v1.0.0-demo.1/Padelit-v1.0.0-demo.1.apk',
     video: projectAsset('padel-system', 'padel-demo.mp4'),
     videoType: 'video/mp4',
     thumbnail: {
@@ -281,6 +284,8 @@ export const projects: Project[] = [
     architecture:
       'Feature-oriented GetX application with data models, repositories, services, bindings, routes, and shared widgets.',
     repository: 'https://github.com/noaman03/AA-e-commerce',
+    apkUrl:
+      'https://github.com/noaman03/AA-e-commerce/releases/download/v1.0.0-demo.1/A-store-v1.0.0-demo.1.apk',
     video: projectAsset('ecommerce', 'ecommerce-demo.mp4'),
     videoType: 'video/mp4',
     thumbnail: {
@@ -411,6 +416,8 @@ export const projects: Project[] = [
     architecture:
       'A selectively feature-based Flutter structure with GetX and layered boundaries in key UI flows.',
     repository: 'https://github.com/noaman03/food-delivery-app',
+    apkUrl:
+      'https://github.com/noaman03/food-delivery-app/releases/download/v1.0.0-demo.1/Food-Delivery-v1.0.0-demo.1.apk',
     thumbnail: {
       src: projectAsset('food-delivery-ui', 'thumbnail.webp'),
       srcSet: `${projectAsset('food-delivery-ui', 'thumbnail-640.webp')} 640w, ${projectAsset('food-delivery-ui', 'thumbnail.webp')} 1200w`,
@@ -474,6 +481,8 @@ export const projects: Project[] = [
     architecture:
       'A compact models/providers/screens/services/widgets structure suited to a focused utility application.',
     repository: 'https://github.com/noaman03/todo-list-and-weather',
+    apkUrl:
+      'https://github.com/noaman03/todo-list-and-weather/releases/download/v1.0.0-demo.1/Todo-Weather-v1.0.0-demo.1.apk',
     thumbnail: {
       src: projectAsset('todo', 'thumbnail.webp'),
       srcSet: `${projectAsset('todo', 'thumbnail-640.webp')} 640w, ${projectAsset('todo', 'thumbnail.webp')} 1200w`,
