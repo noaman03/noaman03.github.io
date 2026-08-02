@@ -624,9 +624,17 @@ html[data-theme='light'] .button:not(.button-secondary):not(.button-ghost) {
 
 .project-card-media {
   position: relative;
+  display: block;
   overflow: hidden;
   aspect-ratio: 16 / 9;
   background: #07101f;
+  color: inherit;
+  text-decoration: none;
+}
+
+.project-card-media:focus-visible {
+  outline: 3px solid var(--brand);
+  outline-offset: -3px;
 }
 
 .project-card-media picture,

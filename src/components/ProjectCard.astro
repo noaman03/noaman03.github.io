@@ -15,7 +15,11 @@ const { project, lead = false, eager = false } = Astro.props;
   class:list={['project-card', { 'project-card-lead': lead }]}
   id={`project-${project.slug}`}
 >
-  <div class="project-card-media">
+  <a
+    class="project-card-media"
+    href={`/projects/${project.slug}/`}
+    aria-label={`View ${project.name} project details`}
+  >
     <OptimizedPicture
       image={project.thumbnail}
       loading={eager ? 'eager' : 'lazy'}
@@ -33,7 +37,7 @@ const { project, lead = false, eager = false } = Astro.props;
         </div>
       )
     }
-  </div>
+  </a>
   <div class="project-card-body">
     <div class="project-meta">
       <span class="project-category">{project.category}</span>
