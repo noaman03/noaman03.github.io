@@ -26,16 +26,36 @@
       </picture>
       <figcaption data-gallery-caption></figcaption>
     </figure>
-    <div class="gallery-controls">
+    <div
+      class="gallery-controls"
+      role="group"
+      aria-label="Screenshot navigation"
+    >
       <button
         type="button"
-        class="button button-secondary"
-        data-gallery-previous>← Previous</button
+        class="gallery-nav-button"
+        aria-label="Previous screenshot"
+        data-gallery-previous
       >
-      <p aria-live="polite" aria-atomic="true" data-gallery-count></p>
-      <button type="button" class="button button-secondary" data-gallery-next
-        >Next →</button
+        <span class="gallery-nav-icon" aria-hidden="true">&larr;</span>
+        <span class="gallery-nav-label">Previous</span>
+      </button>
+      <p
+        class="gallery-position"
+        aria-live="polite"
+        aria-atomic="true"
+        data-gallery-count
       >
+      </p>
+      <button
+        type="button"
+        class="gallery-nav-button"
+        aria-label="Next screenshot"
+        data-gallery-next
+      >
+        <span class="gallery-nav-label">Next</span>
+        <span class="gallery-nav-icon" aria-hidden="true">&rarr;</span>
+      </button>
     </div>
   </div>
 </dialog>
