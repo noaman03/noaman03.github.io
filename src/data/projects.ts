@@ -70,6 +70,8 @@ export const projects: Project[] = [
     architecture:
       'Controller, repository, model, service, and view layers with GetX state and GetStorage preferences.',
     repository: 'https://github.com/noaman03/khayyer-food-donation',
+    apkUrl:
+      'https://github.com/noaman03/khayyer-food-donation/releases/download/v1.0.0-demo.1/Khayyer-v1.0.0-demo.1.apk',
     video: projectAsset('khayyer', 'khayyer-demo.mp4'),
     videoType: 'video/mp4',
     thumbnail: {
@@ -183,10 +185,10 @@ export const projects: Project[] = [
     title: 'Padel System — Court Booking and Club Management Application',
     category: 'Booking & Club Management',
     summary:
-      'A Flutter portfolio prototype for court discovery, booking records, player activities, and venue-owner operations.',
+      'A Flutter application for court discovery and booking, open matches, tournaments, player chat, and venue-owner and administrator operations, with complete light and dark themes.',
     overview: [
-      'Padel System explores the workflows needed by players and venue owners: court discovery, reservations, tournaments, open matches, and operational dashboards. The supplied media also demonstrates administration views.',
-      'The current main branch is a portfolio prototype. Firestore-backed court discovery and booking-record paths exist, while the primary login, payment, chat, tournament, match, and parts of the owner experience use simulated or local data.',
+      'Padel System covers the workflows needed by players, venue owners, and administrators: court discovery, reservations, tournaments, open-match creation and joining, player chat, and operational dashboards with court and tournament editors.',
+      'The current main branch is an offline-capable portfolio demo. Firestore-backed court discovery and booking-record paths exist, while login uses one-tap demo roles and chat, matches, tournaments, and owner management run on session-persistent in-memory stores rather than a backend.',
     ],
     featured: true,
     status: 'Portfolio prototype',
@@ -200,11 +202,11 @@ export const projects: Project[] = [
       'Riverpod',
     ],
     highlights: [
-      'Organizes player and owner experiences into feature-oriented Flutter modules.',
+      'Organizes player, owner, and administrator experiences into feature-oriented Flutter modules.',
       'Implements Firestore court discovery, search, and booking-record paths.',
-      'Demonstrates court browsing, availability, reservations, tournaments, and open-match flows.',
-      'Presents owner dashboards and court-management operations in supplied application media.',
-      'Uses geolocation and geocoding dependencies for location-aware court discovery.',
+      'Provides open-match creation, join requests, and session-persistent player chat backed by shared in-memory stores.',
+      'Includes owner dashboards with court and tournament editor screens.',
+      'Ships complete light and dark themes with one-tap demo accounts for the player, owner, and administrator roles.',
     ],
     architecture:
       'Feature-oriented auth, player, and owner modules with a mixed GetX/Riverpod state-management approach.',
@@ -226,6 +228,10 @@ export const projects: Project[] = [
         'Player home with court booking, next match, reservations, and popular courts.',
       ],
       [
+        'padel-home-dark',
+        'Player home in the dark theme with booking shortcuts and reservations.',
+      ],
+      [
         'padel-courts',
         'Court discovery list with availability and venue information.',
       ],
@@ -238,8 +244,16 @@ export const projects: Project[] = [
         'Tournament details with schedule and participation information.',
       ],
       [
+        'padel-matches',
+        'Open matches list with joinable community games.',
+      ],
+      [
         'padel-match-details',
         'Open match details with roster and joining information.',
+      ],
+      [
+        'padel-chat-dark',
+        'Player chat conversation in the dark theme.',
       ],
       [
         'padel-owner-dashboard',
@@ -257,7 +271,7 @@ export const projects: Project[] = [
       height: 1792,
       alt,
     })),
-    note: 'Prototype boundary: primary authentication and payment are simulated; several social and management workflows use local demo data.',
+    note: 'Demo boundary: authentication uses one-tap demo roles and payment is simulated; chat, matches, tournaments, and owner management persist in session memory rather than a backend.',
   },
   {
     slug: 'ecommerce',
@@ -357,6 +371,8 @@ export const projects: Project[] = [
     architecture:
       'Layered data/domain/view structure with BLoC and GetIt, alongside a small set of legacy paths.',
     repository: 'https://github.com/noaman03/instagram-clone',
+    apkUrl:
+      'https://github.com/noaman03/instagram-clone/releases/download/v1.0.0-demo.1/Instagram-Clone-v1.0.0-demo.1.apk',
     thumbnail: {
       src: projectAsset('instagram-clone', 'thumbnail.webp'),
       srcSet: `${projectAsset('instagram-clone', 'thumbnail-640.webp')} 640w, ${projectAsset('instagram-clone', 'thumbnail.webp')} 1200w`,
@@ -390,7 +406,7 @@ export const projects: Project[] = [
     })),
     disclaimer:
       'Independent educational project; not affiliated with Instagram or Meta.',
-    note: 'The supplied demo video is not published because it contains private-looking conversations and identifiable user media that could not be cleared for public use.',
+    note: 'A demo APK and a walkthrough video are published with the GitHub release. The offline demo mode works without any backend.',
   },
   {
     slug: 'food-delivery-ui',

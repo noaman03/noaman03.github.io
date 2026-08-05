@@ -90,10 +90,13 @@ PROJECTS = (
         video_output="padel-demo.mp4",
         gallery=(
             GalleryItem("padel_system_assets/02-light-home.png", "padel-home", 828),
+            GalleryItem("padel_system_assets/02-dark-home.png", "padel-home-dark", 828),
             GalleryItem("padel_system_assets/04-light-courts.png", "padel-courts", 828),
             GalleryItem("padel_system_assets/08-light-tournaments.png", "padel-tournaments", 828),
             GalleryItem("padel_system_assets/10-light-tournament-details.png", "padel-tournament-details", 828),
+            GalleryItem("padel_system_assets/13-light-matches.png", "padel-matches", 828),
             GalleryItem("padel_system_assets/15-light-match-details.png", "padel-match-details", 828),
+            GalleryItem("padel_system_assets/18-dark-chat.png", "padel-chat-dark", 828),
             GalleryItem("padel_system_assets/19-light-owner-dashboard.png", "padel-owner-dashboard", 828),
             GalleryItem("padel_system_assets/20-light-owner-courts.png", "padel-owner-courts", 828),
             GalleryItem("padel_system_assets/22-light-admin.png", "padel-admin-dashboard", 828),
