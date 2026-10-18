@@ -29,11 +29,18 @@ const structuredData = [
     jobTitle: profile.title,
     url: profile.site,
     email: `mailto:${profile.email}`,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Alexandria',
-      addressCountry: 'EG',
-    },
+    address: [
+      {
+        '@type': 'PostalAddress',
+        addressLocality: 'Cairo',
+        addressCountry: 'EG',
+      },
+      {
+        '@type': 'PostalAddress',
+        addressLocality: 'Alexandria',
+        addressCountry: 'EG',
+      },
+    ],
     sameAs: [profile.github, profile.linkedin],
     alumniOf: {
       '@type': 'CollegeOrUniversity',
@@ -73,10 +80,10 @@ const structuredData = [
       </h1>
 
       <p class="lead hero-lead">
-        Flutter developer in Alexandria. For three months this year I built
-        Strong 8K — a live TV and on-demand client for Android, Android TV and
-        Windows. 73,576 lines of Dart, 2,603 passing tests, and it is on Google
-        Play and the Microsoft Store.
+        Flutter developer in Cairo and Alexandria. For three months this year I
+        built Strong 8K — a live TV and on-demand client for Android, Android TV
+        and Windows. 73,576 lines of Dart, 2,603 passing tests, and it is on
+        Google Play and the Microsoft Store.
       </p>
 
       <div class="button-row">
@@ -230,7 +237,7 @@ const structuredData = [
           <div><dt>DevOps diploma</dt><dd>Andalusia, 2026</dd></div>
           <div><dt>Arabic</dt><dd>Native</dd></div>
           <div><dt>English</dt><dd>C1+</dd></div>
-          <div><dt>Based</dt><dd>Alexandria, Egypt</dd></div>
+          <div><dt>Based</dt><dd>Cairo and Alexandria, Egypt</dd></div>
         </dl>
       </div>
     </div>
@@ -296,7 +303,7 @@ const structuredData = [
           rel="noopener noreferrer"
           aria-label="Ahmed Noaman on LinkedIn (opens in a new tab)">LinkedIn</a
         >
-        <span class="meta">Alexandria, Egypt</span>
+        <span class="meta">Cairo and Alexandria, Egypt</span>
       </div>
     </div>
   </section>
