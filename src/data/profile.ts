@@ -10,10 +10,14 @@ export const profile = {
   cv: '/documents/Ahmed-Mohamed-Noaman-CV.pdf',
 } as const;
 
+/**
+ * Skills that appear in shipped or published work. The DevOps diploma material
+ * that has not been used in a shipped project lives in `studied` below, because
+ * this site draws that line everywhere else and should draw it here too.
+ */
 export const expertise = [
   {
     title: 'Mobile development',
-    accent: true,
     skills: [
       'Flutter',
       'Dart',
@@ -26,7 +30,6 @@ export const expertise = [
   },
   {
     title: 'Architecture',
-    accent: true,
     skills: [
       'Feature-first Clean Architecture',
       'Layered UI, domain, and data design',
@@ -37,12 +40,10 @@ export const expertise = [
   },
   {
     title: 'State management',
-    accent: true,
     skills: ['Riverpod', 'BLoC', 'Cubit', 'Provider', 'GetX'],
   },
   {
     title: 'Backend and data',
-    accent: false,
     skills: [
       'Firebase',
       'Supabase',
@@ -56,7 +57,6 @@ export const expertise = [
   },
   {
     title: 'Integrations',
-    accent: false,
     skills: [
       'REST APIs',
       'WebSockets',
@@ -70,7 +70,6 @@ export const expertise = [
   },
   {
     title: 'Specialized technology',
-    accent: false,
     skills: [
       'YOLOv8',
       'Computer vision',
@@ -80,27 +79,21 @@ export const expertise = [
     ],
   },
   {
-    title: 'DevOps and delivery',
-    accent: true,
+    title: 'Delivery',
     skills: [
       'Linux (Ubuntu, systemd, nginx)',
-      'Codemagic and GitHub Actions CI',
-      'Docker and Kubernetes',
-      'Terraform and Ansible',
-      'Jenkins and Argo CD',
-      'Prometheus and Grafana',
-      'AWS and Azure',
+      'Codemagic CI',
+      'GitHub Actions',
       'Google Play and Microsoft Store releases',
+      'White-label build tooling',
     ],
   },
   {
     title: 'Engineering tools',
-    accent: false,
     skills: ['Git', 'GitHub', 'Postman', 'Testing', 'Quality assurance'],
   },
   {
     title: 'Security and networking',
-    accent: false,
     skills: [
       'Cisco CyberOps',
       'CCNA',
@@ -109,6 +102,28 @@ export const expertise = [
     ],
   },
 ] as const;
+
+/**
+ * Covered by the Andalusia DevOps Engineering diploma but not used in any
+ * project on this site. Listed separately rather than mixed into `expertise`,
+ * for the same reason Khayyer's YOLOv8 and blockchain work is marked as
+ * research scope: the site only claims what it can show.
+ */
+export const studied = {
+  note: 'From the DevOps Engineering diploma, Andalusia, 2026. None of it appears in the work below — Strong 8K runs on plain Linux, systemd and nginx.',
+  skills: [
+    'Docker',
+    'Kubernetes',
+    'Terraform',
+    'Ansible',
+    'Jenkins',
+    'Argo CD',
+    'Prometheus',
+    'Grafana',
+    'AWS',
+    'Azure',
+  ],
+} as const;
 
 export const certifications = [
   'Flutter Diploma — AMIT Learning — Grade 95%',

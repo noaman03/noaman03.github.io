@@ -28,8 +28,27 @@ export type Project = {
   repository?: string;
   /** Store listings, product sites, and other external links. */
   links?: ProjectLink[];
-  /** Platforms the application ships on, for structured data. */
+  /** Platforms the application ships on, for structured data and the row head. */
   platforms?: string;
+  /**
+   * Two captures of the same application at two genuine screen classes, shown
+   * side by side at true relative scale. Only set where both exist: Strong 8K
+   * is the only project with both a phone and a ten-inch tablet capture, and a
+   * borrowed screenshot in a device frame it was not taken on would be a lie.
+   */
+  ladder?: {
+    phone: ProjectImage;
+    tablet: ProjectImage;
+    note: string;
+  };
+  /**
+   * Long-form engineering writing. Only the flagship has it; the rest are
+   * portfolio builds and the site keeps saying so.
+   */
+  caseStudy?: {
+    facts: { label: string; value: string }[];
+    problems: { title: string; body: string[] }[];
+  };
   liveUrl?: string;
   apkUrl?: string;
   video?: string;
@@ -47,6 +66,82 @@ export type Project = {
 const projectAsset = (slug: string, file: string) =>
   `/assets/projects/${slug}/${file}`;
 
+const strong8kImage = (
+  file: string,
+  width: number,
+  height: number,
+  alt: string,
+): ProjectImage => ({
+  src: projectAsset('strong-8k', `${file}.webp`),
+  srcSet: `${projectAsset('strong-8k', `${file}-480.webp`)} 480w, ${projectAsset('strong-8k', `${file}.webp`)} 1200w`,
+  width,
+  height,
+  alt,
+});
+
+/**
+ * Six phone captures at 16:9 and three ten-inch tablet captures at 16:10. All
+ * nine were taken against the reviewer demo line, so the catalogue is Blender
+ * open movies under CC-BY and no customer data appears. There is no Android TV
+ * or Windows capture; the device ladder therefore has two wells, not four.
+ */
+const strong8kGallery: ProjectImage[] = [
+  strong8kImage(
+    'strong8k-home',
+    1200,
+    675,
+    'Strong 8K home screen with an active subscription badge, featured title, and Live, Movies, Series and Radio tiles.',
+  ),
+  strong8kImage(
+    'strong8k-live-tv',
+    1200,
+    675,
+    'Live TV channel list with search, live indicators and a channel preview pane.',
+  ),
+  strong8kImage(
+    'strong8k-movies',
+    1200,
+    675,
+    'Movies browse with category chip, search, sort filters, genre dropdown and poster grid.',
+  ),
+  strong8kImage(
+    'strong8k-movie-details',
+    1200,
+    675,
+    'Movie detail page with genre and rating chips, Watch Now, favourite and download actions and a cast row.',
+  ),
+  strong8kImage(
+    'strong8k-player',
+    1200,
+    675,
+    'Fullscreen video player with transport controls, scrubber and quality badge.',
+  ),
+  strong8kImage(
+    'strong8k-series',
+    1200,
+    675,
+    'Series browse with featured, new, top-rated and alphabetical filters.',
+  ),
+  strong8kImage(
+    'strong8k-tablet-home',
+    1200,
+    750,
+    'Home screen in the ten-inch tablet layout.',
+  ),
+  strong8kImage(
+    'strong8k-tablet-live',
+    1200,
+    750,
+    'Live channel playback with the now-and-next programme bar in the tablet layout.',
+  ),
+  strong8kImage(
+    'strong8k-tablet-series',
+    1200,
+    750,
+    'Series detail with season picker and episode list in the tablet layout.',
+  ),
+];
+
 export const projects: Project[] = [
   {
     slug: 'strong-8k',
@@ -55,7 +150,7 @@ export const projects: Project[] = [
       'Strong 8K — Live TV and On-Demand Streaming Client for Android, Android TV and Windows',
     category: 'Freelance · Streaming & Media Player',
     summary:
-      'A white-label streaming player delivered end to end as a freelance engagement: live TV, movies, series, radio, EPG, time-shift and catch-up on Android phones, tablets, TV boxes and Windows, published on Google Play and the Microsoft Store.',
+      'A live TV and on-demand client for Android, Android TV and Windows: live channels, movies, series, radio, a programme guide, time-shift and catch-up. Two playback engines sit behind one interface, and the failover can tell a blocked host from an expired subscription. Shipped to Google Play and the Microsoft Store.',
     overview: [
       'Strong 8K activates a device against a reseller panel or signs in to an Xtream Codes line, then plays live television, on-demand movies and series, radio, a programme guide, time-shift and catch-up. One Flutter UI drives two playback engines: Media3/ExoPlayer through a native Kotlin platform view on Android, and libmpv through media_kit on Windows. The interface is built for landscape, D-pad navigation and three locales including right-to-left Arabic.',
       'The engagement ran from July to October 2026 as sole developer: 195 commits, 173 Dart files, 51 screens and a test suite that grew with the code to 2,603 passing tests. Alongside the client it included a Node.js reviewer demo service deployed on Ubuntu behind nginx and TLS, a React admin portal, a white-label build driver that produces fifteen brand configurations from one codebase, and a Codemagic pipeline that verifies the produced binary is a genuine release build. The source is client-owned and private; this page links to the store listing and reviewed screenshots instead.',
@@ -100,68 +195,53 @@ export const projects: Project[] = [
       height: 675,
       alt: 'Strong 8K gold logo and wordmark with the tagline "Your media. Every screen." on a dark background.',
     },
-    gallery: [
-      [
-        'strong8k-home',
-        1200,
-        675,
-        'Strong 8K home screen with an active subscription badge, featured title, and Live, Movies, Series and Radio tiles.',
+    gallery: strong8kGallery,
+    ladder: {
+      phone: strong8kGallery[0],
+      tablet: strong8kGallery[6],
+      note: 'One Flutter codebase. It also ships to Android TV and to Windows through the Microsoft Store; those two have no capture here, so they are named rather than pictured.',
+    },
+    caseStudy: {
+      facts: [
+        { label: 'Google Play', value: '1.0.9' },
+        { label: 'Microsoft Store', value: '1.0.1' },
+        { label: 'Worked on it', value: 'Jul–Oct 2026' },
+        { label: 'Dart in lib', value: '73,576 lines' },
+        { label: 'Screens', value: '51' },
+        { label: 'Tests passing', value: '2,603' },
+        { label: 'Commits', value: '195' },
+        { label: 'Pull requests', value: '19, all merged' },
+        { label: 'Brands from one codebase', value: '15' },
+        { label: 'Developers', value: '1' },
       ],
-      [
-        'strong8k-live-tv',
-        1200,
-        675,
-        'Live TV channel list with search, live indicators and a channel preview pane.',
+      problems: [
+        {
+          title: 'A 403 that means two different things',
+          body: [
+            'A reseller gives one subscription several interchangeable hosts, and any of them can be blocked or geo-fenced. The problem is that a blocked host and a finished or over-limit subscription refuse a stream with exactly the same HTTP 403. The app used to read every 403 as a dead host and walk the whole list collecting 403s, while the user watched a stuttering player and was never told their subscription had ended.',
+            'I made the classification a pure function. It sorts a failure into transport, account or ambiguous, and it has to dig the status code back out of raw message strings, because the layer underneath throws bare strings and erases the exception type. It deliberately does not treat 403 as an account status. What stops the dangerous case is checking the provider’s own verdict on the line first, before any of this runs.',
+            'Walking the list authenticates every candidate at the same time rather than one after another — a couple of dozen hosts at a twenty-second timeout would take minutes in sequence — and then picks the first success in the operator’s priority order, not whoever answered fastest. The bound on the walk is structural rather than a magic retry count: each attempt adds hosts to a set that the next enumeration filters out, so the untried pool only shrinks and going A to B and back to A cannot happen.',
+            'Because a walk can take twenty or thirty seconds, I split discovery from commitment. The probe promotes nothing and hands back a hop, so the caller can re-check whether the result still matters, and a late loser is dropped by comparing a generation counter captured before discovery started.',
+          ],
+        },
+        {
+          title: 'The picture freezes and the audio keeps playing',
+          body: [
+            'On Android the video can stop while the audio continues, and the app was structurally incapable of noticing. Media3 reports READY even after its codec has been released. The frame-release control reports ready forever once a first frame has shown. The media clock keeps advancing off the audio renderer. So playback state, isPlaying and position all say the stream is healthy, and the recoverable renderer error never reaches onPlayerError at all.',
+            'The only honest signal left is a frame counter, so I plumbed one across the platform boundary. The Kotlin view reads the decoder counters on the 500 ms ticker it already runs — that read has to happen on the application thread, which that Runnable already is — and sends null rather than a sentinel number when the renderer is disabled, because null is the strongest symptom available and a sentinel would be indistinguishable from a real count. On the Dart side I sum rendered, dropped and skipped frames together, since a decoder that is struggling but alive still moves the dropped and skipped numbers.',
+            'The watchdog itself is a pure class: samples in, verdict out, no player handle. That matters because the two recoveries are opposites. A dead picture with live audio reopens the same stream on the same host, since the host is fine. A full stall abandons the host and starts a failover.',
+          ],
+        },
+        {
+          title: 'Twenty-seven megabytes of catalogue on a weak TV box',
+          body: [
+            'A provider line runs to tens of thousands of items: roughly 27 MB of JSON for the movie catalogue, and about 26 MB and 118,000 entries for the programme guide. This app ships to TV boxes with very little to spare, and the parsing was happening on the UI isolate, where it starved the socket reads of the very download it was decoding.',
+            'Every heavy step moved into worker isolates that do their own file reads and writes inside the isolate rather than passing megabytes back across the boundary. The delta merge classifies what changed before it mutates anything, because the server lumps new and edited items into one bucket and after the merge the two are indistinguishable. The change budget is counted per action rather than from one shared pool, because a pool drained by a rebuild would report hundreds of genuinely new channels as zero.',
+            'The catalogue version is read from the first 200 bytes with a regular expression — which is why both the payload and the merged output write the version field first — so checking whether a delta is needed never costs a full parse. Writes go to a temporary file and are renamed into place, so a crash mid-write cannot leave a half-written catalogue, and each sync is single-flight per host and kind. That last one is not theoretical: the post-login warm-up keeps running while the user opens Movies, and two callers would otherwise truncate each other’s part files and rename a corrupt multi-megabyte file into place.',
+          ],
+        },
       ],
-      [
-        'strong8k-movies',
-        1200,
-        675,
-        'Movies browse with category chip, search, sort filters, genre dropdown and poster grid.',
-      ],
-      [
-        'strong8k-movie-details',
-        1200,
-        675,
-        'Movie detail page with genre and rating chips, Watch Now, favourite and download actions and a cast row.',
-      ],
-      [
-        'strong8k-player',
-        1200,
-        675,
-        'Fullscreen video player with transport controls, scrubber and quality badge.',
-      ],
-      [
-        'strong8k-series',
-        1200,
-        675,
-        'Series browse with featured, new, top-rated and alphabetical filters.',
-      ],
-      [
-        'strong8k-tablet-home',
-        1200,
-        750,
-        'Home screen in the ten-inch tablet layout.',
-      ],
-      [
-        'strong8k-tablet-live',
-        1200,
-        750,
-        'Live channel playback with the now-and-next programme bar in the tablet layout.',
-      ],
-      [
-        'strong8k-tablet-series',
-        1200,
-        750,
-        'Series detail with season picker and episode list in the tablet layout.',
-      ],
-    ].map(([file, width, height, alt]) => ({
-      src: projectAsset('strong-8k', `${file}.webp`),
-      srcSet: `${projectAsset('strong-8k', `${file}-480.webp`)} 480w, ${projectAsset('strong-8k', `${file}.webp`)} 1200w`,
-      width: width as number,
-      height: height as number,
-      alt: alt as string,
-    })),
+    },
     note: 'Screenshots were captured against the purpose-built reviewer demo line, so the catalogue is Blender open movies under CC-BY and no customer data appears. Published on Google Play and the Microsoft Store; an App Store release is in preparation. The client code is private and client-owned.',
   },
   {
@@ -170,7 +250,7 @@ export const projects: Project[] = [
     title: 'Khayyer — Food Donation and Transparent Logistics Platform',
     category: 'Graduation Project · Food Donation',
     summary:
-      'A bilingual Flutter application that connects food donors with charitable organizations through donation capture, campaigns, location-aware coordination, and status updates.',
+      'A food donation platform in Arabic and English that connects donors with charities: donation capture, campaigns, location-aware coordination and status updates. My graduation project, funded by ITIDA.',
     overview: [
       'Khayyer brings donor, organization, and registered-recipient workflows into one Flutter application. The public repository verifies account flows, Firestore-backed records, media uploads, location capture, campaigns, bilingual content, and notification setup.',
       'The graduation-project CV describes a broader research scope involving YOLOv8 freshness checks and blockchain-backed traceability. The current public code snapshot does not contain a YOLOv8 model or a production smart-contract write, so those concepts are documented as project scope rather than shipped repository features.',
@@ -200,6 +280,7 @@ export const projects: Project[] = [
       'https://github.com/noaman03/khayyer-food-donation/releases/download/v1.0.0-demo.1/Khayyer-v1.0.0-demo.1.apk',
     video: projectAsset('khayyer', 'khayyer-demo.mp4'),
     videoType: 'video/mp4',
+    platforms: 'Android',
     thumbnail: {
       src: projectAsset('khayyer', 'thumbnail.webp'),
       srcSet: `${projectAsset('khayyer', 'thumbnail-640.webp')} 640w, ${projectAsset('khayyer', 'thumbnail.webp')} 1200w`,
@@ -243,7 +324,7 @@ export const projects: Project[] = [
     title: 'PSA Academy — Sports Academy Management and Analytics',
     category: 'Sports Management & Analytics',
     summary:
-      'A Flutter Web and Firebase platform for academy roles, athlete attendance, training plans, operational records, and PDF reporting.',
+      'A Flutter Web and Firebase platform for a sports academy: roles, athlete attendance, training plans, payments, QR check-in and PDF reports. It is hosted, so you can open it and try it.',
     overview: [
       'PSA Academy digitizes day-to-day academy operations for administrators, coaches, and players. It brings attendance, training assignments, work sessions, payments, expenses, and reporting into a role-aware Flutter Web experience.',
       'The repository is transitioning toward layered architecture: newer core, data, domain, and presentation modules coexist with legacy pages and services. The portfolio describes that state directly rather than presenting the migration as complete.',
@@ -270,6 +351,7 @@ export const projects: Project[] = [
       'An in-progress layered migration with core/data/domain/presentation modules alongside legacy pages, services, and use cases.',
     repository: 'https://github.com/noaman03/psa-fitness-academy',
     liveUrl: 'https://psa-academy-65088.web.app/',
+    platforms: 'Web',
     thumbnail: {
       src: projectAsset('psa-academy', 'thumbnail.webp'),
       srcSet: `${projectAsset('psa-academy', 'thumbnail-640.webp')} 640w, ${projectAsset('psa-academy', 'thumbnail.webp')} 1200w`,
@@ -311,7 +393,7 @@ export const projects: Project[] = [
     title: 'Padel System — Court Booking and Club Management Application',
     category: 'Booking & Club Management',
     summary:
-      'A Flutter application for court discovery and booking, open matches, tournaments, player chat, and venue-owner and administrator operations, with complete light and dark themes.',
+      'A court booking and club-management prototype: discovery, reservations, tournaments, open matches, player chat and owner dashboards, in full light and dark themes.',
     overview: [
       'Padel System covers the workflows needed by players, venue owners, and administrators: court discovery, reservations, tournaments, open-match creation and joining, player chat, and operational dashboards with court and tournament editors.',
       'The current main branch is an offline-capable portfolio demo. Firestore-backed court discovery and booking-record paths exist, while login uses one-tap demo roles and chat, matches, tournaments, and owner management run on session-persistent in-memory stores rather than a backend.',
@@ -341,6 +423,7 @@ export const projects: Project[] = [
       'https://github.com/noaman03/padel-management-system/releases/download/v1.0.0-demo.1/Padelit-v1.0.0-demo.1.apk',
     video: projectAsset('padel-system', 'padel-demo.mp4'),
     videoType: 'video/mp4',
+    platforms: 'Android',
     thumbnail: {
       src: projectAsset('padel-system', 'thumbnail.webp'),
       srcSet: `${projectAsset('padel-system', 'thumbnail-640.webp')} 640w, ${projectAsset('padel-system', 'thumbnail.webp')} 1200w`,
@@ -399,7 +482,7 @@ export const projects: Project[] = [
     title: 'A-store — Offline E-commerce Application',
     category: 'Shopping Application',
     summary:
-      'An offline Flutter storefront and administration demo with product variations, cart, checkout, orders, and seeded local data.',
+      'An offline storefront and admin demo built on seeded local data: product variations, cart, wishlist, checkout and order history, with no network calls.',
     overview: [
       'A-store demonstrates both sides of a commerce experience: customers can browse a seeded catalogue, manage product choices, cart and wishlist state, and move through checkout, while an admin interface manages catalogue and order data.',
       'The project is intentionally offline. It uses GetStorage as a local JSON document store and does not connect to a backend, payment provider, social sign-in service, or email delivery system.',
@@ -422,6 +505,7 @@ export const projects: Project[] = [
       'https://github.com/noaman03/AA-e-commerce/releases/download/v1.0.0-demo.1/A-store-v1.0.0-demo.1.apk',
     video: projectAsset('ecommerce', 'ecommerce-demo.mp4'),
     videoType: 'video/mp4',
+    platforms: 'Android',
     thumbnail: {
       src: projectAsset('ecommerce', 'thumbnail.webp'),
       srcSet: `${projectAsset('ecommerce', 'thumbnail-640.webp')} 640w, ${projectAsset('ecommerce', 'thumbnail.webp')} 1200w`,
@@ -465,7 +549,7 @@ export const projects: Project[] = [
     title: 'Instagram-inspired Social Application',
     category: 'Social Media Application',
     summary:
-      'An educational Flutter and Firebase project covering posts, reels, stories, profiles, discovery, and direct conversation flows.',
+      'A social application built with Flutter and Firebase to learn media handling and real-time data: posts, reels, stories, profiles, search and direct messages.',
     overview: [
       'This independent project uses a familiar social-media interaction model to demonstrate media handling, real-time backend integration, state management, and layered Flutter development.',
       'The repository includes Firebase-backed accounts and social content plus a separate seeded, in-memory offline demo. The demo state resets between sessions.',
@@ -493,6 +577,7 @@ export const projects: Project[] = [
     repository: 'https://github.com/noaman03/instagram-clone',
     apkUrl:
       'https://github.com/noaman03/instagram-clone/releases/download/v1.0.0-demo.1/Instagram-Clone-v1.0.0-demo.1.apk',
+    platforms: 'Android',
     thumbnail: {
       src: projectAsset('instagram-clone', 'thumbnail.webp'),
       srcSet: `${projectAsset('instagram-clone', 'thumbnail-640.webp')} 640w, ${projectAsset('instagram-clone', 'thumbnail.webp')} 1200w`,
@@ -534,7 +619,7 @@ export const projects: Project[] = [
     title: 'Food Delivery — Flutter UI Concept',
     category: 'Flutter UI Concept',
     summary:
-      'A Flutter food-delivery interface focused on responsive layouts, reusable components, navigation, and a polished local checkout journey.',
+      'Interface only, with no backend and no real orders: discovery, cart, checkout, map selection and order-status screens, built to practise responsive layout and reusable components.',
     overview: [
       'This UI-only project demonstrates how a food ordering experience can be structured across discovery, cart, checkout, map selection, and order-status screens.',
       'All catalogue, transaction, and order behavior is local or simulated. There is no connected authentication, backend, order persistence, real payment, routing service, or driver tracking.',
@@ -554,6 +639,7 @@ export const projects: Project[] = [
     repository: 'https://github.com/noaman03/food-delivery-app',
     apkUrl:
       'https://github.com/noaman03/food-delivery-app/releases/download/v1.0.0-demo.1/Food-Delivery-v1.0.0-demo.1.apk',
+    platforms: 'Android',
     thumbnail: {
       src: projectAsset('food-delivery-ui', 'thumbnail.webp'),
       srcSet: `${projectAsset('food-delivery-ui', 'thumbnail-640.webp')} 640w, ${projectAsset('food-delivery-ui', 'thumbnail.webp')} 1200w`,
@@ -592,7 +678,7 @@ export const projects: Project[] = [
     title: 'Todo and Weather — Offline Productivity Application',
     category: 'Productivity Application',
     summary:
-      'A compact Flutter task manager with SQLite persistence, due dates, calendar views, local reminders, and weather integration code.',
+      'A task manager that works offline: SQLite storage, due dates, a calendar view, local reminders and weather from OpenWeatherMap.',
     overview: [
       'This supporting project focuses on everyday application fundamentals: task CRUD, local storage, due-date selection, calendar presentation, and scheduled local notifications.',
       'The weather request path uses device location and OpenWeatherMap, but the public repository intentionally leaves its API key blank. Weather is therefore not functional from a clean clone without configuration.',
@@ -619,6 +705,7 @@ export const projects: Project[] = [
     repository: 'https://github.com/noaman03/todo-list-and-weather',
     apkUrl:
       'https://github.com/noaman03/todo-list-and-weather/releases/download/v1.0.0-demo.1/Todo-Weather-v1.0.0-demo.1.apk',
+    platforms: 'Android',
     thumbnail: {
       src: projectAsset('todo', 'thumbnail.webp'),
       srcSet: `${projectAsset('todo', 'thumbnail-640.webp')} 640w, ${projectAsset('todo', 'thumbnail.webp')} 1200w`,
