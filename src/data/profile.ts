@@ -17,10 +17,11 @@ export const expertise = [
     skills: [
       'Flutter',
       'Dart',
+      'Kotlin platform views',
       'Swift',
-      'Native platform integration',
-      'Responsive UI',
-      'Reusable widgets',
+      'Android TV and D-pad navigation',
+      'Media3/ExoPlayer and libmpv',
+      'Responsive and RTL UI',
     ],
   },
   {
@@ -79,16 +80,23 @@ export const expertise = [
     ],
   },
   {
+    title: 'DevOps and delivery',
+    accent: true,
+    skills: [
+      'Linux (Ubuntu, systemd, nginx)',
+      'Codemagic and GitHub Actions CI',
+      'Docker and Kubernetes',
+      'Terraform and Ansible',
+      'Jenkins and Argo CD',
+      'Prometheus and Grafana',
+      'AWS and Azure',
+      'Google Play and Microsoft Store releases',
+    ],
+  },
+  {
     title: 'Engineering tools',
     accent: false,
-    skills: [
-      'Git',
-      'GitHub',
-      'Postman',
-      'CI/CD',
-      'Testing',
-      'Quality assurance',
-    ],
+    skills: ['Git', 'GitHub', 'Postman', 'Testing', 'Quality assurance'],
   },
   {
     title: 'Security and networking',

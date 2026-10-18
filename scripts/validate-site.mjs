@@ -32,8 +32,8 @@ expect(existsSync(join(dist, 'robots.txt')), 'Missing robots file.');
 const files = walk(dist);
 const htmlFiles = files.filter((file) => extname(file) === '.html');
 expect(
-  htmlFiles.length === 9,
-  `Expected 9 generated HTML pages; found ${htmlFiles.length}.`,
+  htmlFiles.length === 10,
+  `Expected 10 generated HTML pages; found ${htmlFiles.length}.`,
 );
 
 const resolvePublicReference = (reference) => {

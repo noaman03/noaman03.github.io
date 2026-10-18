@@ -61,6 +61,7 @@ PROJECTS = (
             GalleryItem("strong8k_assets/06-series.png", "strong8k-series", 1200),
             GalleryItem("strong8k_assets/07-tablet-home.png", "strong8k-tablet-home", 1200),
             GalleryItem("strong8k_assets/08-tablet-live-channel.png", "strong8k-tablet-live", 1200),
+            GalleryItem("strong8k_assets/09-tablet-series-details.png", "strong8k-tablet-series", 1200),
         ),
     ),
     ProjectMedia(

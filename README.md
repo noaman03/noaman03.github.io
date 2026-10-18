@@ -8,11 +8,11 @@ A fast, accessible static portfolio for Ahmed Mohamed Noaman, a Flutter Develope
 
 ## What is included
 
-- Seven evidence-led Flutter project profiles based on public repositories and supplied application media.
-- Three fixed featured projects, with the remaining four available through an accessible in-page disclosure.
+- Eight evidence-led project profiles: one published freelance product (Strong 8K, client-owned private source, store listing and reviewed screenshots) and seven portfolio applications based on public repositories and supplied media.
+- Three fixed featured projects, with the remaining five available through an accessible in-page disclosure.
 - Responsive screenshot galleries, selectively loaded demo videos, project detail pages, and privacy-safe media.
 - Dark and light themes, mobile navigation, structured data, social metadata, a sitemap, and a web app manifest.
-- A revised public CV with the portfolio's current project selection.
+- A revised public CV generated from `cv/cv_data.json`; it builds on Windows with Segoe UI and anywhere else with the bundled Selawik fonts (`cv/fonts/`, SIL OFL).
 
 ## Technology
 

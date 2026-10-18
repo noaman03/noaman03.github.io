@@ -182,6 +182,14 @@ def section_heading(text: str, styles: dict[str, ParagraphStyle]) -> list:
     ]
 
 
+def section(text: str, items: list, styles: dict[str, ParagraphStyle], keep: int = 1) -> list:
+    """A heading that never ends a page without the first `keep` items that follow it."""
+    heading = section_heading(text, styles)
+    if not items:
+        return heading
+    return [KeepTogether(heading + list(items[:keep]))] + list(items[keep:])
+
+
 def project_block(project: dict, styles: dict[str, ParagraphStyle]) -> KeepTogether:
     flow = [
         Paragraph(f"{html.escape(project['name'])} - {html.escape(project['category'])}", styles["project"]),
@@ -194,7 +202,7 @@ def project_block(project: dict, styles: dict[str, ParagraphStyle]) -> KeepToget
     return KeepTogether(flow)
 
 
-def experience_block(entry: dict, styles: dict[str, ParagraphStyle]) -> KeepTogether:
+def experience_block(entry: dict, styles: dict[str, ParagraphStyle]) -> list:
     heading = Table(
         [
             [
@@ -230,7 +238,7 @@ def experience_block(entry: dict, styles: dict[str, ParagraphStyle]) -> KeepToge
         )
         flow.append(Paragraph(links, styles["meta"]))
     flow.append(Spacer(1, 1.3 * mm))
-    return KeepTogether(flow)
+    return flow
 
 
 def build_pdf(data: dict) -> None:
@@ -265,28 +273,29 @@ def build_pdf(data: dict) -> None:
         ),
     ]
 
-    story.extend(section_heading("Professional Summary", styles))
-    story.append(Paragraph(html.escape(data["summary"]), styles["body"]))
+    story.extend(section("Professional Summary", [Paragraph(html.escape(data["summary"]), styles["body"])], styles))
 
     if data.get("experience"):
-        story.extend(section_heading("Freelance Experience", styles))
-        for entry in data["experience"]:
-            story.append(experience_block(entry, styles))
+        experience_flow = [item for entry in data["experience"] for item in experience_block(entry, styles)]
+        story.extend(section("Freelance Experience", experience_flow, styles, keep=3))
 
-    story.extend(section_heading("Technical Skills", styles))
-    for skill in data["skills"]:
-        story.append(Paragraph(f"<b>{html.escape(skill['category'])}:</b> {html.escape(skill['items'])}", styles["small"]))
+    skill_lines = [
+        Paragraph(f"<b>{html.escape(skill['category'])}:</b> {html.escape(skill['items'])}", styles["small"])
+        for skill in data["skills"]
+    ]
+    story.extend(section("Technical Skills", skill_lines, styles))
 
-    story.extend(section_heading("Selected Projects", styles))
+    project_blocks = []
     for index, project in enumerate(data["projects"]):
         if index == data.get("page_break_before_project", -1):
-            story.append(PageBreak())
-        story.append(project_block(project, styles))
+            project_blocks.append(PageBreak())
+        project_blocks.append(project_block(project, styles))
+    story.extend(section("Selected Projects", project_blocks, styles))
 
-    story.extend(section_heading("Education & Training", styles))
+    education_lines = []
     for education in data["education"]:
         period = f" | {html.escape(education['period'])}" if education["period"] else ""
-        story.append(
+        education_lines.append(
             Paragraph(
                 f"<b>{html.escape(education['degree'])}</b> | {html.escape(education['school'])}{period}",
                 styles["small"],
@@ -294,15 +303,17 @@ def build_pdf(data: dict) -> None:
         )
     for course in data.get("training", []):
         period = f" | {html.escape(course['period'])}" if course.get("period") else ""
-        story.append(
+        education_lines.append(
             Paragraph(
-                f"<b>{html.escape(course['name'])}</b> | {html.escape(course['provider'])}{period}"
+                f"<b>{html.escape(course['name'])}</b>"
+                + (f" | {html.escape(course['provider'])}" if course.get("provider") else "")
+                + period
                 + (f" - {html.escape(course['details'])}" if course.get("details") else ""),
                 styles["small"],
             )
         )
+    story.extend(section("Education & Training", education_lines, styles))
 
-    story.extend(section_heading("Selected Certifications", styles))
     cert_rows = []
     for index in range(0, len(data["certifications"]), 2):
         row = []
@@ -323,10 +334,11 @@ def build_pdf(data: dict) -> None:
             ]
         )
     )
-    story.append(cert_table)
+    story.extend(section("Selected Certifications", [cert_table], styles))
 
-    story.extend(section_heading("Languages", styles))
-    story.append(Paragraph(" | ".join(html.escape(item) for item in data["languages"]), styles["small"]))
+    story.extend(
+        section("Languages", [Paragraph(" | ".join(html.escape(item) for item in data["languages"]), styles["small"])], styles)
+    )
 
     def page_number(canvas, document):
         canvas.saveState()
@@ -373,7 +385,8 @@ def build_html(data: dict) -> None:
             """
         )
     training_html = "".join(
-        f"<p><strong>{html.escape(item['name'])}</strong> | {html.escape(item['provider'])}"
+        f"<p><strong>{html.escape(item['name'])}</strong>"
+        + (f" | {html.escape(item['provider'])}" if item.get("provider") else "")
         + (f" | {html.escape(item['period'])}" if item.get("period") else "")
         + (f" - {html.escape(item['details'])}" if item.get("details") else "")
         + "</p>"

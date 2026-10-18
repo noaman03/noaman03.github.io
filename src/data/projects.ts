@@ -49,6 +49,118 @@ const projectAsset = (slug: string, file: string) =>
 
 export const projects: Project[] = [
   {
+    slug: 'strong-8k',
+    name: 'Strong 8K',
+    title:
+      'Strong 8K — Live TV and On-Demand Streaming Client for Android, Android TV and Windows',
+    category: 'Freelance · Streaming & Media Player',
+    summary:
+      'A white-label streaming player delivered end to end as a freelance engagement: live TV, movies, series, radio, EPG, time-shift and catch-up on Android phones, tablets, TV boxes and Windows, published on the Microsoft Store.',
+    overview: [
+      'Strong 8K activates a device against a reseller panel or signs in to an Xtream Codes line, then plays live television, on-demand movies and series, radio, a programme guide, time-shift and catch-up. One Flutter UI drives two playback engines: Media3/ExoPlayer through a native Kotlin platform view on Android, and libmpv through media_kit on Windows. The interface is built for landscape, D-pad navigation and three locales including right-to-left Arabic.',
+      'The engagement ran from July to October 2026 as sole developer: 195 commits, 173 Dart files, 51 screens and a test suite that grew with the code to 2,603 passing tests. Alongside the client it included a Node.js reviewer demo service deployed on Ubuntu behind nginx and TLS, a React admin portal, a white-label build driver that produces fifteen brand configurations from one codebase, and a Codemagic pipeline that verifies the produced binary is a genuine release build. The source is client-owned and private; this page links to the store listing and reviewed screenshots instead.',
+    ],
+    featured: true,
+    status: 'Published product · Microsoft Store',
+    labels: ['Featured Project', 'Freelance', 'Published'],
+    stack: [
+      'Flutter',
+      'Dart',
+      'Kotlin',
+      'Media3/ExoPlayer',
+      'libmpv',
+      'Node.js',
+      'nginx',
+    ],
+    highlights: [
+      'Ships one UI over two playback engines: Media3/ExoPlayer via a Kotlin platform view on Android and libmpv via media_kit on Windows.',
+      'Server failover that tells a blocked host from an expired subscription, authenticating candidates concurrently and keeping the operator’s priority order.',
+      'A playback watchdog fed by decoder frame counters across the platform channel, so a frozen picture with live audio is detected and recovered.',
+      'A ~27 MB offline catalogue synced by delta in isolate workers with single-flight, crash-safe writes, keeping weak TV boxes responsive.',
+      'A 2,600-line Node.js demo service for store reviewers with timing-safe auth, deployed by an idempotent installer and verified by a post-deploy smoke test.',
+      'A white-label build driver and Codemagic CI pipeline that run 2,600+ tests and assert the output is a real release build before packaging.',
+    ],
+    architecture:
+      'Deliberately plain layering: one Session ChangeNotifier for application state, Provider at the root, static service singletons over SharedPreferences and JSON files, Navigator 1.0, no DI container and no code generation. Brand identity, palette and feature toggles are injected at build time from a per-client config file.',
+    platforms: 'Android, Android TV, Windows',
+    links: [
+      {
+        label: 'Microsoft Store',
+        url: 'https://apps.microsoft.com/detail/9NMC00K9G60N',
+      },
+    ],
+    thumbnail: {
+      src: projectAsset('strong-8k', 'thumbnail.webp'),
+      srcSet: `${projectAsset('strong-8k', 'thumbnail-640.webp')} 640w, ${projectAsset('strong-8k', 'thumbnail.webp')} 1200w`,
+      width: 1200,
+      height: 675,
+      alt: 'Strong 8K gold logo and wordmark with the tagline "Your media. Every screen." on a dark background.',
+    },
+    gallery: [
+      [
+        'strong8k-home',
+        1200,
+        675,
+        'Strong 8K home screen with an active subscription badge, featured title, and Live, Movies, Series and Radio tiles.',
+      ],
+      [
+        'strong8k-live-tv',
+        1200,
+        675,
+        'Live TV channel list with search, live indicators and a channel preview pane.',
+      ],
+      [
+        'strong8k-movies',
+        1200,
+        675,
+        'Movies browse with category chip, search, sort filters, genre dropdown and poster grid.',
+      ],
+      [
+        'strong8k-movie-details',
+        1200,
+        675,
+        'Movie detail page with genre and rating chips, Watch Now, favourite and download actions and a cast row.',
+      ],
+      [
+        'strong8k-player',
+        1200,
+        675,
+        'Fullscreen video player with transport controls, scrubber and quality badge.',
+      ],
+      [
+        'strong8k-series',
+        1200,
+        675,
+        'Series browse with featured, new, top-rated and alphabetical filters.',
+      ],
+      [
+        'strong8k-tablet-home',
+        1200,
+        750,
+        'Home screen in the ten-inch tablet layout.',
+      ],
+      [
+        'strong8k-tablet-live',
+        1200,
+        750,
+        'Live channel playback with the now-and-next programme bar in the tablet layout.',
+      ],
+      [
+        'strong8k-tablet-series',
+        1200,
+        750,
+        'Series detail with season picker and episode list in the tablet layout.',
+      ],
+    ].map(([file, width, height, alt]) => ({
+      src: projectAsset('strong-8k', `${file}.webp`),
+      srcSet: `${projectAsset('strong-8k', `${file}-480.webp`)} 480w, ${projectAsset('strong-8k', `${file}.webp`)} 1200w`,
+      width: width as number,
+      height: height as number,
+      alt: alt as string,
+    })),
+    note: 'Screenshots were captured against the purpose-built reviewer demo line, so the catalogue is Blender open movies under CC-BY and no customer data appears. Android 1.0.9 is release-ready; the client code is private and client-owned.',
+  },
+  {
     slug: 'khayyer',
     name: 'Khayyer',
     title: 'Khayyer — Food Donation and Transparent Logistics Platform',
@@ -200,9 +312,9 @@ export const projects: Project[] = [
       'Padel System covers the workflows needed by players, venue owners, and administrators: court discovery, reservations, tournaments, open-match creation and joining, player chat, and operational dashboards with court and tournament editors.',
       'The current main branch is an offline-capable portfolio demo. Firestore-backed court discovery and booking-record paths exist, while login uses one-tap demo roles and chat, matches, tournaments, and owner management run on session-persistent in-memory stores rather than a backend.',
     ],
-    featured: true,
+    featured: false,
     status: 'Portfolio prototype',
-    labels: ['Featured Project'],
+    labels: ['Portfolio Prototype'],
     stack: [
       'Flutter',
       'Dart',
@@ -253,18 +365,12 @@ export const projects: Project[] = [
         'padel-tournament-details',
         'Tournament details with schedule and participation information.',
       ],
-      [
-        'padel-matches',
-        'Open matches list with joinable community games.',
-      ],
+      ['padel-matches', 'Open matches list with joinable community games.'],
       [
         'padel-match-details',
         'Open match details with roster and joining information.',
       ],
-      [
-        'padel-chat-dark',
-        'Player chat conversation in the dark theme.',
-      ],
+      ['padel-chat-dark', 'Player chat conversation in the dark theme.'],
       [
         'padel-owner-dashboard',
         'Venue-owner dashboard summarizing operational activity.',
