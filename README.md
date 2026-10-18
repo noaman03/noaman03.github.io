@@ -1,6 +1,6 @@
 # Ahmed Noaman — Flutter Developer Portfolio
 
-A fast, accessible static portfolio for Ahmed Mohamed Noaman, a Flutter Developer and Mobile Application Engineer based in Cairo and Alexandria, Egypt.
+A fast, accessible static portfolio for Ahmed Mohamed Noaman, a Flutter Developer and Mobile Application Engineer based in Cairo, Egypt.
 
 [View the live portfolio](https://noaman03.github.io) · [Download the CV](public/documents/Ahmed-Mohamed-Noaman-CV.pdf)
 
