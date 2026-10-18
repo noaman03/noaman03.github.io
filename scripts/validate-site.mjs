@@ -84,6 +84,27 @@ for (const file of htmlFiles) {
       `${relative(dist, file)} contains excluded content.`,
     );
   }
+  // Design rules from design/02-plan.md, so a later edit cannot quietly put
+  // back the two things design/01-audit.md named as making the site generic:
+  // tracked ALL-CAPS eyebrow labels, and an arrow glyph glued to every link.
+  expect(
+    !/class="[^"]*uppercase[^"]*"/.test(source),
+    `${relative(dist, file)} uses an uppercase label.`,
+  );
+  expect(
+    !/[←→↓↗↘]/.test(source),
+    `${relative(dist, file)} contains an arrow glyph.`,
+  );
+
+  // Every image states its own dimensions, which is what stops a gallery from
+  // cropping landscape screenshots into a fixed portrait box again.
+  for (const tag of source.match(/<img[^>]*>/g) ?? []) {
+    expect(
+      tag.includes('width=') && tag.includes('height='),
+      `${relative(dist, file)} has an image without width and height.`,
+    );
+  }
+
   for (const match of source.matchAll(/(?:href|src|poster)="([^"]+)"/g)) {
     const target = resolvePublicReference(match[1]);
     if (target)
@@ -126,7 +147,9 @@ expect(
   ),
   'Independent-project disclaimer is missing.',
 );
-expect(home.includes('UI-Only Project'), 'UI-only project label is missing.');
+// Case-insensitive since the redesign sets labels in sentence case; the rule
+// still guarantees the home page says that project is interface-only.
+expect(/ui-only project/i.test(home), 'UI-only project label is missing.');
 
 const thumbnails = [
   'strong-8k',

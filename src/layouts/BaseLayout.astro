@@ -14,8 +14,8 @@ type Props = {
 };
 
 const {
-  title = 'Ahmed Noaman | Flutter Developer & Mobile Application Engineer',
-  description = 'Portfolio of Ahmed Noaman, a Flutter developer building scalable mobile applications with Clean Architecture, Riverpod, BLoC, Firebase, Supabase, computer vision, blockchain integration, and real-time technologies.',
+  title = 'Ahmed Noaman | Flutter developer, Alexandria',
+  description = 'Ahmed Noaman builds software for screens people watch from across the room. Strong 8K, a live TV and on-demand client for Android, Android TV and Windows, is on Google Play and the Microsoft Store.',
   canonicalPath = '/',
   image = '/og.png',
   structuredData,
@@ -31,15 +31,22 @@ const imageUrl = new URL(image, profile.site).toString();
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#07101f" />
+    <meta name="theme-color" content="#0d0c0a" />
     <meta name="color-scheme" content="dark light" />
     <link rel="canonical" href={canonicalUrl} />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/archivo-var.woff2"
+      crossorigin
+    />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Ahmed Noaman Portfolio" />
+    <meta property="og:site_name" content="Ahmed Noaman" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -48,7 +55,7 @@ const imageUrl = new URL(image, profile.site).toString();
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Ahmed Noaman, Flutter Developer and Mobile Application Engineer"
+      content="Ahmed Noaman, Flutter developer in Alexandria"
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -87,5 +94,61 @@ const imageUrl = new URL(image, profile.site).toString();
     </main>
     <Footer />
     <MediaDialogs />
+    <div class="focus-ring" data-focus-ring-box aria-hidden="true"></div>
+
+    <script>
+      /* Strong 8K is driven by a D-pad, where a single bright box tells you
+         where you are and moves between targets. The portfolio's focus
+         indicator does the same thing: one box, 90ms. If this script never
+         runs, the stylesheet's own :focus-visible outline is what shows, so
+         focus is always visible either way. Reduced motion keeps the box and
+         drops the transition, which the stylesheet handles. */
+      const box = document.querySelector<HTMLElement>('[data-focus-ring-box]');
+      const supported = (() => {
+        try {
+          document.querySelector(':focus-visible');
+          return true;
+        } catch {
+          return false;
+        }
+      })();
+
+      if (box && supported) {
+        document.documentElement.dataset.focusRing = 'on';
+
+        const hide = () => box.setAttribute('data-visible', 'false');
+
+        const follow = () => {
+          const target = document.querySelector(':focus-visible');
+          /* A modal dialog paints over the box, so inside one the dialog's
+             own outline does the job and the box stands down. */
+          if (!target || target.closest('dialog[open]')) return hide();
+          const rect = target.getBoundingClientRect();
+          if (rect.width === 0 && rect.height === 0) return hide();
+          box.style.width = `${rect.width + 6}px`;
+          box.style.height = `${rect.height + 6}px`;
+          box.style.transform = `translate(${rect.left + window.scrollX - 3}px, ${
+            rect.top + window.scrollY - 3
+          }px)`;
+          box.setAttribute('data-visible', 'true');
+        };
+
+        let settle = 0;
+        const followInstantly = () => {
+          box.setAttribute('data-instant', 'true');
+          follow();
+          window.clearTimeout(settle);
+          settle = window.setTimeout(
+            () => box.removeAttribute('data-instant'),
+            120,
+          );
+        };
+
+        document.addEventListener('focusin', follow);
+        document.addEventListener('focusout', hide);
+        window.addEventListener('resize', followInstantly);
+        window.addEventListener('scroll', followInstantly, { passive: true });
+      }
+    </script>
   </body>
 </html>

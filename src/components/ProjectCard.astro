@@ -4,154 +4,167 @@ import OptimizedPicture from './OptimizedPicture.astro';
 
 type Props = {
   project: Project;
-  lead?: boolean;
   eager?: boolean;
 };
 
-const { project, lead = false, eager = false } = Astro.props;
+/* Every row has the same shape. Hierarchy is carried by the gold left rule on
+   the one project that reached a store, not by making a card bigger. */
+const { project, eager = false } = Astro.props;
+const href = `/projects/${project.slug}/`;
+
+/* The gold left rule means exactly one thing: this one reached a store. */
+const shipped = Boolean(project.links?.length);
+
+/* "Featured Project" says nothing the position in the list does not already
+   say. The rest — Freelance, UI-Only Project, Funded by ITIDA — are real, but
+   several repeat a phrase the status line already carries, so drop those too
+   rather than printing "Graduation project ... Graduation Project". */
+const status = project.status.toLowerCase();
+const labels = project.labels.filter(
+  (label) =>
+    label !== 'Featured Project' && !status.includes(label.toLowerCase()),
+);
+
+const platforms = (project.platforms ?? '')
+  .split(',')
+  .map((part) => part.trim())
+  .filter(Boolean);
 ---
 
 <article
-  class:list={['project-card', { 'project-card-lead': lead }]}
+  class:list={['project-card', { 'project-card-shipped': shipped }]}
   id={`project-${project.slug}`}
 >
-  <a
-    class="project-card-media"
-    href={`/projects/${project.slug}/`}
-    aria-label={`View ${project.name} project details`}
-  >
-    <OptimizedPicture
-      image={project.thumbnail}
-      loading={eager ? 'eager' : 'lazy'}
-      fetchpriority={eager ? 'high' : 'auto'}
-      sizes={lead
-        ? '(min-width: 900px) 55vw, 100vw'
-        : '(min-width: 768px) 50vw, 100vw'}
-    />
+  <div class="project-row-head">
+    <h3><a href={href}>{project.name}</a></h3>
     {
-      project.labels.length > 0 && (
-        <div class="project-labels" aria-label="Project labels">
-          {project.labels.map((label) => (
-            <span class="project-label">{label}</span>
-          ))}
-        </div>
+      platforms.length > 0 && (
+        <p class="project-platforms">{platforms.join(' · ')}</p>
       )
     }
-  </a>
+  </div>
+
   <div class="project-card-body">
-    <div class="project-meta">
-      <span class="project-category">{project.category}</span>
-      <span>{project.status}</span>
-    </div>
-    <h3>{project.name}</h3>
-    <p class="project-summary">{project.summary}</p>
-    <ul class="stack-list" aria-label={`${project.name} technologies`}>
-      {project.stack.slice(0, 6).map((technology) => <li>{technology}</li>)}
-    </ul>
-    <ul class="highlight-list">
-      {
-        project.highlights
-          .slice(0, lead ? 4 : 3)
-          .map((highlight) => <li>{highlight}</li>)
-      }
-    </ul>
-    {
-      project.funding && (
-        <p class="project-funding">
-          {project.funding.statement}{' '}
-          <a
-            href={project.funding.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn about ITIDA
-          </a>
-        </p>
-      )
-    }
-    {
-      project.disclaimer && (
-        <p class="project-disclaimer">{project.disclaimer}</p>
-      )
-    }
-    <div class="project-actions" aria-label={`${project.name} actions`}>
-      <a class="button" href={`/projects/${project.slug}/`}>View Details</a>
-      {
-        project.video && (
-          <button
-            class="button button-secondary"
-            type="button"
-            data-video-trigger
-            data-project={project.name}
-            data-video={project.video}
-            data-video-type={project.videoType}
-            data-poster={project.thumbnail.src}
-          >
-            Watch Demo
-          </button>
-        )
-      }
-      <button
-        class="button button-secondary"
-        type="button"
-        data-gallery-trigger
-        data-project={project.name}
-        data-gallery={JSON.stringify(project.gallery)}
+    <div>
+      <a
+        class="project-card-media"
+        href={href}
+        aria-label={`Open the ${project.name} project page`}
       >
-        View Screenshots
-      </button>
+        <OptimizedPicture
+          image={project.thumbnail}
+          loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : 'auto'}
+          sizes="(min-width: 1120px) 458px, (min-width: 768px) 38vw, 100vw"
+        />
+      </a>
+    </div>
+
+    <div>
+      <p class="project-summary">{project.summary}</p>
+      <p class="project-status">
+        {project.status}{labels.length > 0 && ` · ${labels.join(' · ')}`}
+      </p>
+      <ul class="project-stack" aria-label={`${project.name} technologies`}>
+        {project.stack.slice(0, 6).map((technology) => <li>{technology}</li>)}
+      </ul>
       {
-        project.repository && (
-          <a
-            class="button button-ghost"
-            href={project.repository}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`View ${project.name} source code on GitHub (opens in a new tab)`}
-          >
-            Source Code <span aria-hidden="true">↗</span>
-          </a>
+        project.funding && (
+          <p class="project-note">
+            {project.funding.statement}{' '}
+            <a
+              href={project.funding.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn about ITIDA
+            </a>
+          </p>
         )
       }
-      {
-        project.links?.map((link) => (
-          <a
-            class="button button-ghost"
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`${link.label} for ${project.name} (opens in a new tab)`}
-          >
-            {link.label} <span aria-hidden="true">↗</span>
-          </a>
-        ))
-      }
-      {
-        project.apkUrl && (
-          <a
-            class="button button-ghost"
-            href={project.apkUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Download ${project.name} Android demo APK (opens in a new tab)`}
-          >
-            Download APK <span aria-hidden="true">↗</span>
-          </a>
-        )
-      }
-      {
-        project.liveUrl && (
-          <a
-            class="button button-ghost"
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Open ${project.name} live web application (opens in a new tab)`}
-          >
-            Open Live App <span aria-hidden="true">↗</span>
-          </a>
-        )
-      }
+      {project.disclaimer && <p class="project-note">{project.disclaimer}</p>}
+
+      <div class="button-row" aria-label={`${project.name} links`}>
+        <a class="button button-secondary" href={href}>
+          {project.caseStudy ? 'Read the case study' : 'Project details'}
+        </a>
+        {
+          project.video && (
+            <button
+              class="button-ghost"
+              type="button"
+              data-video-trigger
+              data-project={project.name}
+              data-video={project.video}
+              data-video-type={project.videoType}
+              data-poster={project.thumbnail.src}
+            >
+              Watch the demo
+            </button>
+          )
+        }
+        <button
+          class="button-ghost"
+          type="button"
+          data-gallery-trigger
+          data-project={project.name}
+          data-gallery={JSON.stringify(project.gallery)}
+        >
+          {`See ${project.gallery.length} screenshots`}
+        </button>
+        {
+          project.links?.map((link) => (
+            <a
+              class="button-ghost"
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.name} on ${link.label} (opens in a new tab)`}
+            >
+              {link.label}
+            </a>
+          ))
+        }
+        {
+          project.repository && (
+            <a
+              class="button-ghost"
+              href={project.repository}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.name} source code on GitHub (opens in a new tab)`}
+            >
+              Source code
+            </a>
+          )
+        }
+        {
+          project.liveUrl && (
+            <a
+              class="button-ghost"
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open the live ${project.name} web application (opens in a new tab)`}
+            >
+              Open the live app
+            </a>
+          )
+        }
+        {
+          project.apkUrl && (
+            <a
+              class="button-ghost"
+              href={project.apkUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Download the ${project.name} Android demo APK (opens in a new tab)`}
+            >
+              Download the APK
+            </a>
+          )
+        }
+      </div>
     </div>
   </div>
 </article>
