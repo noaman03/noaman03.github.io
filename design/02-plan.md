@@ -21,16 +21,57 @@ So the site should look like what it is about: **black screens, read at distance
 Big quiet type, a lot of air, one warm ink taken from the product, and the real screenshots given
 the full width they were exported at. Not "developer portfolio" as a genre.
 
-### The one memorable thing
+### The one memorable thing — the device ladder
 
-> **A full-bleed black 16:9 band carrying a real screenshot — edge to edge, uncropped, at the top
-> of the home page and the top of every project page.**
+> **Two black wells carrying real screenshots, side by side at true relative scale: the phone
+> capture at 16:9 and the ten-inch tablet capture at 16:10, sharing a baseline, with the scale
+> relationship between them preserved exactly.**
 
-Everything else on the site gets quieter so that band lands. It is the only full-bleed element,
-the only black surface in the light theme, and the largest object on every page. It is also the
-only honest hero available: the work is pictures of screens, so the hero is a picture of a screen.
+It is one composed object, not a picture — the point is the _relationship_ between the two, and
+the relationship is the claim: the same Flutter codebase, drawn for two different screen shapes.
+It replaces the hero code-window mock, which was a drawing of a file that does not exist.
 
-This replaces the hero code-window mock, which was a drawing of a file that does not exist.
+**What the evidence actually supports, and the constraint that follows.** Of the nine approved
+screenshots, six are phone landscape at 1200×675 (16:9) and three are ten-inch tablet at 1200×750
+(16:10). **There is no Android TV capture and no Windows capture.** So the ladder has two wells,
+not four. Android TV and Windows are stated in words on the rule beneath it — they are in
+`projects.ts:92` as platforms, and the brief evidences both — but they are never drawn as frames
+with someone else's screenshot inside. An empty outlined well labelled "TV" would read as a
+missing image; a phone capture in a TV frame would be a lie. Two honest wells beat four dishonest
+ones, and the aspect-ratio difference between them is the real evidence anyway.
+
+```
+desktop ≥768px — side by side, shared baseline, true relative scale
+
+   ┌────────────────┐     ┌──────────────────────────┐
+   │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │     │ ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ │
+   │ ▓   phone    ▓ │     │ ▓    ten-inch tablet   ▓ │
+   └────────────────┘     └──────────────────────────┘
+    16:9                   16:10                        ← tablet ≈1.55× wider
+   ──────────────────────────────────────────────────   ← gold hairline
+    One Flutter codebase. Also ships to Android TV and Windows.
+
+phone <768px — stacked, tablet first at full width, phone below at 62%,
+left-aligned, so the size relationship survives the stack
+
+   ┌──────────────────────────┐
+   │ ▓   ten-inch tablet    ▓ │
+   └──────────────────────────┘
+   ┌───────────────┐
+   │ ▓   phone   ▓ │
+   └───────────────┘
+   ───────────────────────────
+   One Flutter codebase. Also
+   ships to Android TV and Windows.
+```
+
+Everything else on the site gets quieter so the ladder lands. The wells are the only black
+surfaces in the light theme and the only objects with no radius at all.
+
+**Decisions taken by Ahmed, 2026-10-19:** this visual idea over the full-bleed band and over the
+two alternatives offered (a moving D-pad selection; a full-viewport type poster); the DevOps
+skills group **is** split into shipped versus diploma (§8.1); the hero sentence **is** used as
+written (§8.3).
 
 ---
 
@@ -135,12 +176,15 @@ page, not a label above a paragraph. One display line per page, never two.
 
 ## 4. Layout
 
-A 12-column grid, 1120px max, 24px gutters at phone and 40px at desktop. **The only full-bleed
-element is the screen band.** Rules appear in exactly three places and each one means something:
+A 12-column grid, 1120px max, 24px gutters at phone and 40px at desktop. Nothing is full-bleed;
+the ladder is the widest object and it still sits inside the container, because its whole point
+is the proportion between its two wells and a bleed would break that. Rules appear in exactly
+four places and each one means something:
 
 1. A **gold left rule** beside a project row marks _shipped to a store_ (today only Strong 8K).
 2. A **hairline rule between project rows** — these are a list, and a list has rules.
 3. A **hairline under the header** — it separates chrome from content.
+4. A **gold hairline under the device ladder**, carrying the one line of platform fact.
 
 Everything else is separated by space. No card borders, no card shadows, no card radii. Radius is
 `0` for media wells (a screen has square corners) and `2px` for buttons; nothing else is rounded.
@@ -164,13 +208,16 @@ Everything else is separated by space. No card borders, no card shadows, no card
 │                                                                            │
 │              Read the Strong 8K case study    Download CV                  │  2 buttons only
 │                                                                            │
-├════════════════════════════════════════════════════════════════════════════┤
-│██████████████████████████████████████████████████████████████████████████  │  FULL-BLEED
-│███            Strong 8K home screen — 16:9, uncropped               ████   │  --screen,
-│██████████████████████████████████████████████████████████████████████████  │  no radius
-├────────────────────────────────────────────────────────────────────────────┤
-│  Strong 8K on a ten-inch tablet. Captured against the reviewer demo line,   │  caption,
-│  so the catalogue is Blender open movies.                                   │  --ink-quiet
+│                                                                            │
+│   ┌──────────────────┐      ┌────────────────────────────────┐             │  THE LADDER
+│   │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│      │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│             │  --screen,
+│   │▓   phone 16:9   ▓│      │▓     ten-inch tablet 16:10    ▓│             │  radius 0,
+│   └──────────────────┘      └────────────────────────────────┘             │  shared
+│    Strong 8K on a phone      Strong 8K on a ten-inch tablet                 │  baseline,
+│ ───────────────────────────────────────────────────────────────────────────│  true scale
+│  One Flutter codebase. Also ships to Android TV and Windows.                │  ← gold rule
+│  Captured against the reviewer demo line, so the catalogue is Blender       │  caption,
+│  open movies.                                                               │  --ink-quiet
 │                                                                            │
 │  Projects                                           Eight. One shipped.    │  h2 left,
 │ ───────────────────────────────────────────────────────────────────────────│  count right
@@ -222,10 +269,11 @@ Everything else is separated by space. No card borders, no card shadows, no card
 ```
 
 **What is left-aligned, what is not, where the grid breaks.** Everything is left-aligned to the
-same rule — there is no centred text anywhere on the site. Two things break the grid on purpose:
-the **screen band**, which ignores the container entirely and runs to both edges; and the
-**lead paragraph**, which starts at column 4 while the display line starts at column 1, so the
-opening reads as a shape rather than a stack. The project count ("Eight. One shipped.") and the
+same rule — there is no centred text anywhere on the site. One thing breaks the grid on purpose:
+the **lead paragraph**, which starts at column 4 while the display line starts at column 1, so the
+opening reads as a shape rather than a stack. The ladder's two wells are set from the _left_ rule
+and run out to whatever width true scale gives them, so the right edge is ragged on purpose —
+the proportion is the content, not the alignment. The project count ("Eight. One shipped.") and the
 figures in the about table are the only right-aligned elements, because they are a column of
 numbers and numbers align right.
 
@@ -249,10 +297,17 @@ numbers and numbers align right.
 │                        │
 │ Strong 8K case study → │   buttons full width,
 │ Download CV            │   stacked, 2 only
-├════════════════════════┤
-│████████████████████████│   band still runs
-│███  Strong 8K 16:9  ███│   edge to edge:
-│████████████████████████│   NO side gutter
+│                        │
+│┌──────────────────────┐│   ladder STACKS:
+││▓ tablet 16:10      ▓ ││   tablet first,
+│└──────────────────────┘│   full width
+│┌─────────────┐         │
+││▓ phone 16:9▓│         │   phone at 62% —
+│└─────────────┘         │   the size ratio
+│────────────────────────│   survives the
+│ One Flutter codebase.  │   stack
+│ Also ships to Android  │
+│ TV and Windows.        │
 ├────────────────────────┤
 │ Strong 8K on a ten-    │
 │ inch tablet. Reviewer  │
@@ -279,7 +334,7 @@ numbers and numbers align right.
 └────────────────────────┘
 ```
 
-Rule for the phone: the hero must not exceed one screen before the band appears. Today it takes
+Rule for the phone: the hero must not exceed one screen before the ladder appears. Today it takes
 roughly two.
 
 ### Project page — Strong 8K as a case study
@@ -296,10 +351,13 @@ roughly two.
 │              Android TV and Windows. Freelance, July to October 2026.      │
 │                                                                            │
 │              Google Play    Microsoft Store    Nine screenshots            │
-├════════════════════════════════════════════════════════════════════════════┤
-│██████████████████████████████████████████████████████████████████████████  │  FULL-BLEED
-│███              Strong 8K home screen — 16:9                       ████    │
-│██████████████████████████████████████████████████████████████████████████  │
+│                                                                            │
+│   ┌──────────────────┐      ┌────────────────────────────────┐             │  the ladder
+│   │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│      │▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓│             │  again, this
+│   │▓  phone 16:9    ▓│      │▓    ten-inch tablet 16:10     ▓│             │  time from
+│   └──────────────────┘      └────────────────────────────────┘             │  THIS
+│ ───────────────────────────────────────────────────────────────────────────│  project's
+│  One Flutter codebase. Also ships to Android TV and Windows.                │  own gallery
 ├────────────────────────────────────────────────────────────────────────────┤
 │  What it is                                  │  Shipped                    │
 │                                              │ ────────────────────────────│
@@ -355,11 +413,15 @@ Todo) render 2-up at phone and 4-up at desktop, also at their true ratio. Nothin
 `object-fit: cover`-ed into a box it does not fit. This deletes `aspect-ratio: 4 / 5` at
 `global.css:1360` — the bug from the audit.
 
-The other seven project pages use the **same template, shorter**: display name, lead, screen band
-(every project has a 1200×675 thumbnail, so the band works everywhere), overview, highlights as
-prose, gallery, boundary note. They keep saying what they are — "Portfolio prototype", "UI-only
-project", "Independent educational project" — in the status line directly under the name, not in
-a pill.
+**The ladder is a Strong 8K device, not a site-wide one.** It needs two captures of the same
+application at two genuine screen classes, and only Strong 8K has them (six phone-landscape, three
+ten-inch tablet). Khayyer's gallery is landscape but single-class; the other six projects are
+portrait phone captures only. So the other seven project pages open with **one well** carrying
+their 1200×675 thumbnail — the same black, the same zero radius, the same caption treatment, just
+one of it. They keep saying what they are — "Portfolio prototype", "UI-only project",
+"Independent educational project" — in the status line directly under the name, not in a pill.
+A one-well opening on a prototype and a two-well ladder on the shipped product is itself a
+hierarchy the reader can see without being told.
 
 ---
 
@@ -497,28 +559,35 @@ A reader should be able to tell that the person who wrote that had the bug open 
 
 ---
 
-## 8. Things that need Ahmed's decision
+## 8. Decisions — asked and answered (2026-10-19)
 
-1. **Splitting the DevOps skills group.** `src/data/profile.ts:80-92` currently lists Docker,
-   Kubernetes, Terraform, Ansible, Jenkins, Argo CD, Prometheus, Grafana, AWS and Azure beside
-   Linux, Codemagic and GitHub Actions, with no distinction. `strong8k-brief.md` §4 is blunt:
-   _"None of those is used in this project, with the single exception of Linux."_ I want to render
-   that group in two parts — **used in shipped work** (Linux/Ubuntu/systemd/nginx, Codemagic,
-   GitHub Actions, Play and Microsoft Store releases) and **from the DevOps diploma, not yet used
-   in shipped work** (the rest). It is the same list, with the boundary drawn — which is what the
-   rest of the site already does for Khayyer's YOLOv8 and blockchain scope. It needs a flag in
-   `profile.ts`; it invents no fact. **Say if you would rather leave the list flat.**
-2. **"Eight. One shipped."** as the project count. True today (Strong 8K is the only store
-   release; PSA Academy is hosted but not a store product). It will need editing when something
+1. **Splitting the DevOps skills group — APPROVED, split it.** `src/data/profile.ts:80-92`
+   listed Docker, Kubernetes, Terraform, Ansible, Jenkins, Argo CD, Prometheus, Grafana, AWS and
+   Azure beside Linux, Codemagic and GitHub Actions with no distinction. `strong8k-brief.md` §4 is
+   blunt: _"None of those is used in this project, with the single exception of Linux."_ The group
+   renders in two parts — **used in shipped work** (Linux/Ubuntu/systemd/nginx, Codemagic, GitHub
+   Actions, Play and Microsoft Store releases) and **from the DevOps diploma, not yet used in
+   shipped work** (the rest). Same list, boundary drawn, as the site already does for Khayyer's
+   YOLOv8 and blockchain scope. Needs a flag in `profile.ts`; invents no fact.
+2. **The hero sentence — APPROVED as written.** "I build software for screens people watch from
+   across the room."
+3. **The visual idea — the device ladder**, chosen over the full-bleed screen band and over two
+   alternatives offered (a gold D-pad selection that moves between targets; a full-viewport type
+   poster with no hero image). See §1.
+4. **"Eight. One shipped."** as the project count — kept. True today: Strong 8K is the only store
+   release; PSA Academy is hosted but is not a store product. It will need editing when something
    else ships.
-3. **The hero sentence.** "I build software for screens people watch from across the room" is the
-   line the whole design hangs on. If it does not sound like you, say so now — the layout survives
-   a different sentence, but the design does not survive a generic one.
-4. **Which screenshot goes in the home page band.** Plan is `strong8k-tablet-home` (1200×750, the
-   ten-inch tablet home screen) because it shows the most product at once. `strong8k-home` and
-   `strong8k-live-tv` are the alternatives.
+5. **Which captures go in the home ladder** — my call, not asked: `strong8k-home` (1200×675) in
+   the phone well and `strong8k-tablet-home` (1200×750) in the tablet well. They are the same
+   screen of the same app at two device classes, which is the only pairing that makes the ladder
+   mean what it says.
 
-Nothing on this list blocks starting; items 1 and 3 are the only ones that would cause rework.
+### Still open — flagged, not blocking
+
+- **No Android TV or Windows capture exists** among the nine approved screenshots, so both
+  platforms appear only as words. If you have a TV or desktop screenshot that is safe to publish
+  (demo line, no customer data), the ladder would carry four wells instead of two and would be a
+  materially stronger object. I am not inventing one.
 
 ---
 
@@ -538,7 +607,7 @@ Nothing on this list blocks starting; items 1 and 3 are the only ones that would
 
 1. Tokens and the font pipeline (`global.css` `:root`, `scripts/build_fonts.py`, `public/fonts/`).
 2. Type scale and base elements; delete the uppercase and monospace label styles.
-3. Header, footer, the screen band component.
+3. Header, footer, the device-ladder component.
 4. Home: hero, band, project rows, skills table, about table, contact.
 5. Project pages: shared template, then the Strong 8K case study prose.
 6. Gallery: per-image aspect ratio, 2-up/4-up by orientation; dialog cross-fade.
