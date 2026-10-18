@@ -12,7 +12,9 @@ ecommerce-assets/
 instgram_clone_assets/
 food_delivery_assets/
 todo_assets/
+strong8k_assets/
 
 # Local-only audits and generated intermediates.
+__pycache__/
 media-audit.json
 npm-debug.log*

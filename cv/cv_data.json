@@ -1,12 +1,44 @@
 {
   "name": "Ahmed Mohamed Noaman",
-  "title": "Flutter Developer & Mobile Application Engineer",
-  "location": "Alexandria, Egypt",
+  "title": "Flutter Developer & Mobile Application Engineer | DevOps & Release Engineering",
+  "location": "Cairo and Alexandria, Egypt",
   "email": "noamana455@gmail.com",
   "github": "github.com/noaman03",
   "portfolio": "https://noaman03.github.io",
   "linkedin": "linkedin.com/in/ahmed-noaman-07ab162b4",
-  "summary": "Computer Engineering student and Flutter developer focused on secure, scalable cross-platform applications. Completed AMIT Learning's Flutter Diploma with a 95% grade. Project experience includes feature-first Clean Architecture, modern state management, Firebase and Supabase integration, local persistence, real-time systems, computer vision and blockchain research, and native iOS development with Swift.",
+  "summary": "Flutter developer and Computer Engineering student who has taken a product from an empty repository to the stores: Strong 8K, a cross-platform live TV and on-demand streaming client for Android, Android TV and Windows, delivered end to end as a freelance engagement and published on Google Play and the Microsoft Store. Comfortable across the whole delivery path - Flutter and native Kotlin playback code, a Node.js service with nginx and systemd on Linux, white-label build tooling, CI, and app-store submission - and holds a DevOps Engineering Diploma from Andalusia covering Docker, Kubernetes, Terraform, Ansible, Jenkins, GitHub Actions, Argo CD, Prometheus and Grafana on AWS and Azure. Completed AMIT Learning's Flutter Diploma with a 95% grade.",
+  "experience": [
+    {
+      "role": "Freelance Flutter & Platform Developer",
+      "organisation": "Strong 8K (streaming client)",
+      "period": "Jul 2026 - Oct 2026",
+      "description": "Freelance engagement as sole developer of a white-label streaming player for Android phones, tablets and D-pad TV boxes and for Windows desktop: live TV, movies, series, radio, EPG, time-shift, catch-up, downloads, device activation and parental controls. Published on Google Play and the Microsoft Store; App Store release in preparation.",
+      "stack": "Flutter, Dart, Provider, Kotlin (Media3/ExoPlayer platform view), libmpv via media_kit, Node.js, Express, React (react-admin), nginx, systemd, Let's Encrypt, Codemagic CI, MSIX",
+      "bullets": [
+        "Built the Flutter client - 173 Dart files, 51 screens, three locales with full RTL Arabic - with one UI over two playback engines (Media3/ExoPlayer on Android, libmpv on Windows).",
+        "Designed server failover that distinguishes a blocked host from an expired subscription, authenticating candidate hosts concurrently and keeping the operator's priority order instead of the fastest responder.",
+        "Fixed frozen-video-with-live-audio stalls by plumbing decoder frame counters from Kotlin across the platform channel into a pure-function playback watchdog.",
+        "Moved a ~27 MB offline catalogue and ~118k-entry guide into isolate workers with delta sync, single-flight writes and crash-safe rename-on-complete, so weak TV boxes stay responsive.",
+        "Wrote and deployed the reviewer demo service (Node.js/Express, 2,600 LOC, two dependencies, timing-safe auth) on Ubuntu behind nginx and TLS, with a 2,375-line idempotent installer and a 780-line post-deploy smoke test.",
+        "Built a 1,800-line white-label build driver that turns one codebase into 15 brand configurations, restores every touched file on failure, and a Codemagic pipeline that runs analysis and 2,600+ tests and verifies the produced binary is a genuine release build.",
+        "Grew the test suite with the code - 131 test files, 2,603 passing tests at the final commit - and took the app through Google Play and Microsoft Store (MSIX) review, including data-safety declarations and Android TV banner requirements."
+      ],
+      "links": [
+        {
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.strong8k.player_desktop"
+        },
+        {
+          "label": "Microsoft Store",
+          "url": "https://apps.microsoft.com/detail/9NMC00K9G60N"
+        },
+        {
+          "label": "Portfolio case study",
+          "url": "https://noaman03.github.io/projects/strong-8k/"
+        }
+      ]
+    }
+  ],
   "education": [
     {
       "degree": "B.Sc. Computer Engineering",
@@ -22,27 +54,27 @@
   "skills": [
     {
       "category": "Mobile Development",
-      "items": "Flutter, Dart, Swift (iOS), native platform integration, responsive UI"
+      "items": "Flutter, Dart, Swift (iOS), Kotlin platform views and channels, Android TV / D-pad navigation, Media3/ExoPlayer, libmpv (media_kit), responsive and RTL UI"
     },
     {
-      "category": "Architecture",
-      "items": "Feature-first Clean Architecture, layered UI/domain/data design, SOLID principles, functional programming, Dartz"
-    },
-    {
-      "category": "State Management",
-      "items": "Riverpod, BLoC, Cubit, Provider, GetX"
+      "category": "Architecture & State",
+      "items": "Feature-first Clean Architecture, layered UI/domain/data design, SOLID, Riverpod, BLoC, Cubit, Provider, GetX, isolate-based background work"
     },
     {
       "category": "Backend & Data",
-      "items": "Firebase, Supabase Realtime, Cloud Firestore, SQLite, MySQL, Node.js, Express"
+      "items": "Node.js, Express, REST API design, Firebase, Supabase Realtime, Cloud Firestore, SQLite, MySQL, React (react-admin)"
+    },
+    {
+      "category": "DevOps & Delivery",
+      "items": "Linux (Ubuntu, systemd, nginx, Let's Encrypt), Codemagic and GitHub Actions CI, Docker, Kubernetes, Jenkins, Terraform, Ansible, Argo CD, Prometheus, Grafana, AWS, Azure; Google Play and Microsoft Store (MSIX) release engineering"
     },
     {
       "category": "Integrations",
-      "items": "REST APIs, WebSockets, geolocation, push notifications, QR scanning, biometrics, PDF generation"
+      "items": "REST APIs, WebSockets, HLS/Xtream streaming protocols, geolocation, push notifications, QR scanning and pairing, biometrics, PDF generation, TMDB"
     },
     {
       "category": "Security & Tools",
-      "items": "Cisco CyberOps, CCNA, Identity and Access Management, Git, GitHub, Postman, CI/CD, testing"
+      "items": "Cisco CyberOps, CCNA, Identity and Access Management, credential sanitisation, timing-safe auth, Git, GitHub, Postman, testing"
     }
   ],
   "projects": [
@@ -82,6 +114,7 @@
   ],
   "certifications": [
     "Flutter Diploma (Grade: 95%) - AMIT Learning",
+    "DevOps Engineering Diploma (2026) - Andalusia",
     "Developing iOS Applications with Swift - ITI",
     "Developing Back-End Apps with Node.js and Express - IBM",
     "Quality Assurance - Techniques & Methodologies",

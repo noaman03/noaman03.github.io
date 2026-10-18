@@ -1,0 +1,48 @@
+---
+import OptimizedPicture from './OptimizedPicture.astro';
+import type { Project } from '../data/projects';
+
+type Props = {
+  ladder: NonNullable<Project['ladder']>;
+  eager?: boolean;
+};
+
+const { ladder, eager = false } = Astro.props;
+---
+
+{
+  /*
+  The same application at two real screen classes, side by side at true
+  relative scale: a 6.1-inch phone in landscape is about 135 mm wide and a
+  ten-inch tablet about 215 mm, which is the 1 : 1.59 the stylesheet uses.
+  Two wells and not four, because no Android TV or Windows capture exists
+  among the approved screenshots and a borrowed one would be a lie.
+*/
+}
+<div class="ladder">
+  <figure class="ladder-well ladder-phone">
+    <OptimizedPicture
+      image={ladder.phone}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      sizes="(min-width: 1120px) 387px, (min-width: 768px) 37vw, 60vw"
+    />
+    <figcaption>Phone, captured at 1920 × 1080</figcaption>
+  </figure>
+  <figure class="ladder-well ladder-tablet">
+    <OptimizedPicture
+      image={ladder.tablet}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      sizes="(min-width: 1120px) 615px, (min-width: 768px) 59vw, 95vw"
+    />
+    <figcaption>Ten-inch tablet, captured at 2560 × 1600</figcaption>
+  </figure>
+</div>
+<p class="ladder-note">
+  {ladder.note}
+  <span
+    >Captured against the reviewer demo line, so the catalogue is Blender open
+    movies under CC-BY and no customer data appears.</span
+  >
+</p>

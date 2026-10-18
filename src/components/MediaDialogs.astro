@@ -6,7 +6,7 @@
   <div class="dialog-shell">
     <div class="dialog-header">
       <div>
-        <p class="eyebrow">Project gallery</p>
+        <p class="meta">Screenshots</p>
         <h2 id="gallery-dialog-title" data-gallery-title>
           Project screenshots
         </h2>
@@ -14,11 +14,11 @@
       <button
         class="dialog-close"
         type="button"
-        aria-label="Close screenshot gallery"
+        aria-label="Close the screenshot gallery"
         data-gallery-close>Close</button
       >
     </div>
-    <figure class="gallery-stage">
+    <figure class="gallery-stage" data-gallery-stage>
       <picture data-gallery-picture>
         <source type="image/avif" data-gallery-avif />
         <source type="image/webp" data-gallery-webp />
@@ -37,8 +37,16 @@
         aria-label="Previous screenshot"
         data-gallery-previous
       >
-        <span class="gallery-nav-icon" aria-hidden="true">&larr;</span>
-        <span class="gallery-nav-label">Previous</span>
+        <svg
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          aria-hidden="true"
+        >
+          <path d="M10 2.5 4.5 8l5.5 5.5"></path>
+        </svg>
+        <span>Previous</span>
       </button>
       <p
         class="gallery-position"
@@ -53,8 +61,16 @@
         aria-label="Next screenshot"
         data-gallery-next
       >
-        <span class="gallery-nav-label">Next</span>
-        <span class="gallery-nav-icon" aria-hidden="true">&rarr;</span>
+        <span>Next</span>
+        <svg
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          aria-hidden="true"
+        >
+          <path d="M6 2.5 11.5 8 6 13.5"></path>
+        </svg>
       </button>
     </div>
   </div>
@@ -68,13 +84,13 @@
   <div class="dialog-shell">
     <div class="dialog-header">
       <div>
-        <p class="eyebrow">Application demo</p>
+        <p class="meta">Demo recording</p>
         <h2 id="video-dialog-title" data-video-title>Project demo</h2>
       </div>
       <button
         class="dialog-close"
         type="button"
-        aria-label="Close project demo"
+        aria-label="Close the project demo"
         data-video-close>Close</button
       >
     </div>
@@ -100,6 +116,9 @@
 
   const galleryDialog = document.querySelector<HTMLDialogElement>(
     '[data-gallery-dialog]',
+  );
+  const galleryStage = document.querySelector<HTMLElement>(
+    '[data-gallery-stage]',
   );
   const galleryImage = document.querySelector<HTMLImageElement>(
     '[data-gallery-image]',
@@ -129,9 +148,16 @@
   let galleryIndex = 0;
   let galleryReturnFocus: HTMLElement | null = null;
 
+  /* The site's one orchestrated moment: stepping through the stills with the
+     arrow keys should read as a sequence rather than a flicker. Reduced
+     motion turns the 120ms transition off in the stylesheet, and the class is
+     always removed, so nothing can get stuck invisible. */
+  const revealStage = () => galleryStage?.classList.remove('is-swapping');
+
   const updateGallery = () => {
     const item = galleryItems[galleryIndex];
     if (!item || !galleryImage || !galleryAvif || !galleryWebp) return;
+    galleryStage?.classList.add('is-swapping');
     const avifSrc = item.src.replace(/\.webp$/, '.avif');
     const avifSrcSet = item.srcSet?.replaceAll('.webp', '.avif');
     galleryAvif.srcset = avifSrcSet ?? avifSrc;
@@ -146,6 +172,10 @@
       galleryCount.textContent = `${galleryIndex + 1} of ${galleryItems.length}`;
     if (previousButton) previousButton.disabled = galleryItems.length < 2;
     if (nextButton) nextButton.disabled = galleryItems.length < 2;
+
+    if (galleryImage.complete) requestAnimationFrame(revealStage);
+    else galleryImage.addEventListener('load', revealStage, { once: true });
+    window.setTimeout(revealStage, 400);
   };
 
   const moveGallery = (direction: number) => {

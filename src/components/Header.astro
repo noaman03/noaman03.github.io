@@ -2,7 +2,6 @@
 import { profile } from '../data/profile';
 
 const navLinks = [
-  ['Home', '/#home'],
   ['Projects', '/#projects'],
   ['Skills', '/#skills'],
   ['About', '/#about'],
@@ -11,16 +10,8 @@ const navLinks = [
 ---
 
 <header class="site-header" data-site-header>
-  <div
-    class="mx-auto flex h-[4.75rem] max-w-7xl items-center justify-between gap-4 px-5 sm:px-8 lg:px-10"
-  >
-    <a
-      class="brand-mark"
-      href="/#home"
-      aria-label="Ahmed Noaman portfolio home"
-    >
-      <span aria-hidden="true">AN</span>
-    </a>
+  <div class="header-inner">
+    <a class="brand-mark" href="/#home">Ahmed Noaman</a>
 
     <nav class="desktop-nav" aria-label="Primary navigation">
       {navLinks.map(([label, href]) => <a href={href}>{label}</a>)}
@@ -55,12 +46,33 @@ const navLinks = [
       <button
         class="icon-button theme-toggle"
         type="button"
-        aria-label="Switch to light theme"
+        aria-label="Switch to dark theme"
         aria-pressed="false"
         data-theme-toggle
       >
-        <span class="theme-icon theme-icon-light" aria-hidden="true">☀</span>
-        <span class="theme-icon theme-icon-dark" aria-hidden="true">◐</span>
+        <svg
+          class="theme-icon theme-icon-light"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          aria-hidden="true"
+        >
+          <path d="M13 9.5A5.5 5.5 0 0 1 6.5 3a5.5 5.5 0 1 0 6.5 6.5Z"></path>
+        </svg>
+        <svg
+          class="theme-icon theme-icon-dark"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          aria-hidden="true"
+        >
+          <circle cx="8" cy="8" r="3.1"></circle>
+          <path
+            d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3.1 3.1l1.1 1.1M11.8 11.8l1.1 1.1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1"
+          ></path>
+        </svg>
       </button>
       <button
         class="icon-button menu-toggle"
@@ -86,11 +98,17 @@ const navLinks = [
       <a href={profile.cv} download="Ahmed-Mohamed-Noaman-CV.pdf">Download CV</a
       >
       <div class="mobile-socials">
-        <a href={profile.github} target="_blank" rel="noopener noreferrer"
-          >GitHub <span aria-hidden="true">↗</span></a
+        <a
+          href={profile.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ahmed Noaman on GitHub (opens in a new tab)">GitHub</a
         >
-        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer"
-          >LinkedIn <span aria-hidden="true">↗</span></a
+        <a
+          href={profile.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ahmed Noaman on LinkedIn (opens in a new tab)">LinkedIn</a
         >
       </div>
     </nav>
@@ -98,7 +116,6 @@ const navLinks = [
 </header>
 
 <script>
-  const header = document.querySelector<HTMLElement>('[data-site-header]');
   const menuButton =
     document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const mobileNavigation = document.querySelector<HTMLElement>(
@@ -113,7 +130,6 @@ const navLinks = [
     menuButton.setAttribute('aria-expanded', 'false');
     menuButton.setAttribute('aria-label', 'Open navigation menu');
     mobileNavigation.hidden = true;
-    header?.classList.remove('menu-is-open');
   };
 
   menuButton?.addEventListener('click', () => {
@@ -125,12 +141,12 @@ const navLinks = [
       isOpen ? 'Open navigation menu' : 'Close navigation menu',
     );
     mobileNavigation.hidden = isOpen;
-    header?.classList.toggle('menu-is-open', !isOpen);
   });
 
   mobileNavigation
     ?.querySelectorAll('a')
     .forEach((link) => link.addEventListener('click', closeMenu));
+
   window.addEventListener('keydown', (event) => {
     if (
       event.key === 'Escape' &&
@@ -140,6 +156,7 @@ const navLinks = [
       menuButton.focus();
     }
   });
+
   window
     .matchMedia('(min-width: 900px)')
     .addEventListener('change', (event) => {
@@ -148,20 +165,24 @@ const navLinks = [
 
   const updateThemeButton = () => {
     if (!themeButton) return;
-    const isLight = document.documentElement.dataset.theme === 'light';
-    themeButton.setAttribute('aria-pressed', String(isLight));
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    themeButton.setAttribute('aria-pressed', String(isDark));
     themeButton.setAttribute(
       'aria-label',
-      `Switch to ${isLight ? 'dark' : 'light'} theme`,
+      `Switch to ${isDark ? 'light' : 'dark'} theme`,
     );
   };
 
   updateThemeButton();
   themeButton?.addEventListener('click', () => {
     const nextTheme =
-      document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = nextTheme;
-    localStorage.setItem('portfolio-theme', nextTheme);
+    try {
+      localStorage.setItem('portfolio-theme', nextTheme);
+    } catch {
+      /* private mode: the choice simply does not persist */
+    }
     updateThemeButton();
   });
 </script>

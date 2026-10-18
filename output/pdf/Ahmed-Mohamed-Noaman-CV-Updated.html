@@ -67,6 +67,13 @@
         color: #4a5969;
         font-weight: 600;
       }
+      .project h3 .period {
+        float: right;
+        color: #4a5969;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+      }
       .stack {
         color: #4a5969;
         font-size: 12px;
@@ -96,9 +103,12 @@
   <body>
     <header>
       <h1>AHMED MOHAMED NOAMAN</h1>
-      <h2>Flutter Developer &amp; Mobile Application Engineer</h2>
+      <h2>
+        Flutter Developer &amp; Mobile Application Engineer | DevOps &amp;
+        Release Engineering
+      </h2>
       <p class="contact">
-        Alexandria, Egypt |
+        Cairo and Alexandria, Egypt |
         <a href="mailto:noamana455@gmail.com">noamana455@gmail.com</a> |
         <a href="https://github.com/noaman03">github.com/noaman03</a> |
         <a href="https://noaman03.github.io">https://noaman03.github.io</a> |
@@ -110,46 +120,129 @@
     <section>
       <h2>Professional Summary</h2>
       <p>
-        Computer Engineering student and Flutter developer focused on secure,
-        scalable cross-platform applications. Completed AMIT Learning&#x27;s
-        Flutter Diploma with a 95% grade. Project experience includes
-        feature-first Clean Architecture, modern state management, Firebase and
-        Supabase integration, local persistence, real-time systems, computer
-        vision and blockchain research, and native iOS development with Swift.
+        Flutter developer and Computer Engineering student who has taken a
+        product from an empty repository to the stores: Strong 8K, a
+        cross-platform live TV and on-demand streaming client for Android,
+        Android TV and Windows, delivered end to end as a freelance engagement
+        and published on Google Play and the Microsoft Store. Comfortable across
+        the whole delivery path - Flutter and native Kotlin playback code, a
+        Node.js service with nginx and systemd on Linux, white-label build
+        tooling, CI, and app-store submission - and holds a DevOps Engineering
+        Diploma from Andalusia covering Docker, Kubernetes, Terraform, Ansible,
+        Jenkins, GitHub Actions, Argo CD, Prometheus and Grafana on AWS and
+        Azure. Completed AMIT Learning&#x27;s Flutter Diploma with a 95% grade.
       </p>
     </section>
     <section>
-      <h2>Education</h2>
-      <p>
-        <strong>B.Sc. Computer Engineering</strong> | Arab Academy for Science,
-        Technology &amp; Maritime Transport | 2021 - Expected 2026
-      </p>
-      <p><strong>High School Diploma</strong> | Sidi Gaber Language School</p>
+      <h2>Freelance Experience</h2>
+      <article class="project">
+        <h3>
+          Freelance Flutter &amp; Platform Developer
+          <span>- Strong 8K (streaming client)</span>
+          <em class="period">Jul 2026 - Oct 2026</em>
+        </h3>
+        <p>
+          Freelance engagement as sole developer of a white-label streaming
+          player for Android phones, tablets and D-pad TV boxes and for Windows
+          desktop: live TV, movies, series, radio, EPG, time-shift, catch-up,
+          downloads, device activation and parental controls. Published on
+          Google Play and the Microsoft Store; App Store release in preparation.
+        </p>
+        <p class="stack">
+          <strong>Stack:</strong> Flutter, Dart, Provider, Kotlin
+          (Media3/ExoPlayer platform view), libmpv via media_kit, Node.js,
+          Express, React (react-admin), nginx, systemd, Let&#x27;s Encrypt,
+          Codemagic CI, MSIX
+        </p>
+        <ul>
+          <li>
+            Built the Flutter client - 173 Dart files, 51 screens, three locales
+            with full RTL Arabic - with one UI over two playback engines
+            (Media3/ExoPlayer on Android, libmpv on Windows).
+          </li>
+          <li>
+            Designed server failover that distinguishes a blocked host from an
+            expired subscription, authenticating candidate hosts concurrently
+            and keeping the operator&#x27;s priority order instead of the
+            fastest responder.
+          </li>
+          <li>
+            Fixed frozen-video-with-live-audio stalls by plumbing decoder frame
+            counters from Kotlin across the platform channel into a
+            pure-function playback watchdog.
+          </li>
+          <li>
+            Moved a ~27 MB offline catalogue and ~118k-entry guide into isolate
+            workers with delta sync, single-flight writes and crash-safe
+            rename-on-complete, so weak TV boxes stay responsive.
+          </li>
+          <li>
+            Wrote and deployed the reviewer demo service (Node.js/Express, 2,600
+            LOC, two dependencies, timing-safe auth) on Ubuntu behind nginx and
+            TLS, with a 2,375-line idempotent installer and a 780-line
+            post-deploy smoke test.
+          </li>
+          <li>
+            Built a 1,800-line white-label build driver that turns one codebase
+            into 15 brand configurations, restores every touched file on
+            failure, and a Codemagic pipeline that runs analysis and 2,600+
+            tests and verifies the produced binary is a genuine release build.
+          </li>
+          <li>
+            Grew the test suite with the code - 131 test files, 2,603 passing
+            tests at the final commit - and took the app through Google Play and
+            Microsoft Store (MSIX) review, including data-safety declarations
+            and Android TV banner requirements.
+          </li>
+        </ul>
+        <p class="stack">
+          <a
+            href="https://play.google.com/store/apps/details?id=com.strong8k.player_desktop"
+            >Google Play</a
+          >
+          |
+          <a href="https://apps.microsoft.com/detail/9NMC00K9G60N"
+            >Microsoft Store</a
+          >
+          |
+          <a href="https://noaman03.github.io/projects/strong-8k/"
+            >Portfolio case study</a
+          >
+        </p>
+      </article>
     </section>
     <section>
       <h2>Technical Skills</h2>
       <p>
-        <strong>Mobile Development:</strong> Flutter, Dart, Swift (iOS), native
-        platform integration, responsive UI
+        <strong>Mobile Development:</strong> Flutter, Dart, Swift (iOS), Kotlin
+        platform views and channels, Android TV / D-pad navigation,
+        Media3/ExoPlayer, libmpv (media_kit), responsive and RTL UI
       </p>
       <p>
-        <strong>Architecture:</strong> Feature-first Clean Architecture, layered
-        UI/domain/data design, SOLID principles, functional programming, Dartz
+        <strong>Architecture &amp; State:</strong> Feature-first Clean
+        Architecture, layered UI/domain/data design, SOLID, Riverpod, BLoC,
+        Cubit, Provider, GetX, isolate-based background work
       </p>
       <p>
-        <strong>State Management:</strong> Riverpod, BLoC, Cubit, Provider, GetX
+        <strong>Backend &amp; Data:</strong> Node.js, Express, REST API design,
+        Firebase, Supabase Realtime, Cloud Firestore, SQLite, MySQL, React
+        (react-admin)
       </p>
       <p>
-        <strong>Backend &amp; Data:</strong> Firebase, Supabase Realtime, Cloud
-        Firestore, SQLite, MySQL, Node.js, Express
+        <strong>DevOps &amp; Delivery:</strong> Linux (Ubuntu, systemd, nginx,
+        Let&#x27;s Encrypt), Codemagic and GitHub Actions CI, Docker,
+        Kubernetes, Jenkins, Terraform, Ansible, Argo CD, Prometheus, Grafana,
+        AWS, Azure; Google Play and Microsoft Store (MSIX) release engineering
       </p>
       <p>
-        <strong>Integrations:</strong> REST APIs, WebSockets, geolocation, push
-        notifications, QR scanning, biometrics, PDF generation
+        <strong>Integrations:</strong> REST APIs, WebSockets, HLS/Xtream
+        streaming protocols, geolocation, push notifications, QR scanning and
+        pairing, biometrics, PDF generation, TMDB
       </p>
       <p>
         <strong>Security &amp; Tools:</strong> Cisco CyberOps, CCNA, Identity
-        and Access Management, Git, GitHub, Postman, CI/CD, testing
+        and Access Management, credential sanitisation, timing-safe auth, Git,
+        GitHub, Postman, testing
       </p>
     </section>
     <section>
@@ -248,9 +341,18 @@
       </article>
     </section>
     <section>
+      <h2>Education</h2>
+      <p>
+        <strong>B.Sc. Computer Engineering</strong> | Arab Academy for Science,
+        Technology &amp; Maritime Transport | 2021 - Expected 2026
+      </p>
+      <p><strong>High School Diploma</strong> | Sidi Gaber Language School</p>
+    </section>
+    <section>
       <h2>Selected Certifications</h2>
       <ul class="certifications">
         <li>Flutter Diploma (Grade: 95%) - AMIT Learning</li>
+        <li>DevOps Engineering Diploma (2026) - Andalusia</li>
         <li>Developing iOS Applications with Swift - ITI</li>
         <li>Developing Back-End Apps with Node.js and Express - IBM</li>
         <li>Quality Assurance - Techniques &amp; Methodologies</li>
