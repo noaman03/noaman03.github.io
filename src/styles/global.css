@@ -933,6 +933,10 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 
 /* --- credentials ----------------------------------------------------- */
 
+.credential-block {
+  max-width: 56rem;
+}
+
 .credential-list li {
   padding-block: 0.55rem;
   border-bottom: 1px solid var(--rule);

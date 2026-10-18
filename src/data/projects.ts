@@ -71,9 +71,22 @@ const strong8kImage = (
   width: number,
   height: number,
   alt: string,
+  /**
+   * Intermediate srcset widths. The two images in the device ladder also carry
+   * an 800w step, because the tablet well renders at about 615 CSS pixels and a
+   * one-times desktop would otherwise pull the 1200w file for it. Those two
+   * files were resized from the committed 1200w WebP, which is the highest
+   * quality copy in this repository.
+   */
+  steps: number[] = [480],
 ): ProjectImage => ({
   src: projectAsset('strong-8k', `${file}.webp`),
-  srcSet: `${projectAsset('strong-8k', `${file}-480.webp`)} 480w, ${projectAsset('strong-8k', `${file}.webp`)} 1200w`,
+  srcSet: [
+    ...steps.map(
+      (step) => `${projectAsset('strong-8k', `${file}-${step}.webp`)} ${step}w`,
+    ),
+    `${projectAsset('strong-8k', `${file}.webp`)} 1200w`,
+  ].join(', '),
   width,
   height,
   alt,
@@ -91,6 +104,7 @@ const strong8kGallery: ProjectImage[] = [
     1200,
     675,
     'Strong 8K home screen with an active subscription badge, featured title, and Live, Movies, Series and Radio tiles.',
+    [480, 800],
   ),
   strong8kImage(
     'strong8k-live-tv',
@@ -127,6 +141,7 @@ const strong8kGallery: ProjectImage[] = [
     1200,
     750,
     'Home screen in the ten-inch tablet layout.',
+    [480, 800],
   ),
   strong8kImage(
     'strong8k-tablet-live',

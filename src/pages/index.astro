@@ -109,8 +109,10 @@ const structuredData = [
 
       <div class="projects-grid">
         {
-          featuredProjects.map((project, index) => (
-            <ProjectCard project={project} eager={index === 0} />
+          featuredProjects.map((project) => (
+            /* Nothing above the fold is a project thumbnail any more: the
+               ladder is the hero, so these all load lazily. */
+            <ProjectCard project={project} />
           ))
         }
       </div>
@@ -245,34 +247,27 @@ const structuredData = [
         </h2>
       </div>
 
-      <div class="split">
-        <div>
+      {
+        /*
+        The degree, the university and the dates are already in the About
+        facts table directly above. A second table repeating them was the one
+        accessory this page did not need, so the certificates stand alone.
+      */
+      }
+      <div class="credential-block">
+        <ul class="credential-list">
+          {certifications.map((certification) => <li>{certification}</li>)}
+        </ul>
+        <details>
+          <summary>{secondaryCertifications.length} more credentials</summary>
           <ul class="credential-list">
-            {certifications.map((certification) => <li>{certification}</li>)}
+            {
+              secondaryCertifications.map((certification) => (
+                <li>{certification}</li>
+              ))
+            }
           </ul>
-          <details>
-            <summary>
-              {secondaryCertifications.length} more credentials
-            </summary>
-            <ul class="credential-list">
-              {
-                secondaryCertifications.map((certification) => (
-                  <li>{certification}</li>
-                ))
-              }
-            </ul>
-          </details>
-        </div>
-        <dl class="facts">
-          <div>
-            <dt>B.Sc. Computer Engineering</dt><dd>2021 – expected 2026</dd>
-          </div>
-          <div>
-            <dt>
-              Arab Academy for Science, Technology & Maritime Transport
-            </dt><dd>Alexandria</dd>
-          </div>
-        </dl>
+        </details>
       </div>
     </div>
   </section>
