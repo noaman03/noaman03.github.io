@@ -312,7 +312,7 @@ def build_pdf(data: dict) -> None:
                 styles["small"],
             )
         )
-    story.extend(section("Education & Training", education_lines, styles))
+    story.extend(section("Education & Training" if data.get("training") else "Education", education_lines, styles))
 
     cert_rows = []
     for index in range(0, len(data["certifications"]), 2):
@@ -455,7 +455,7 @@ def build_html(data: dict) -> None:
   {f"<section><h2>Freelance Experience</h2>{''.join(experience_html)}</section>" if experience_html else ''}
   <section><h2>Technical Skills</h2>{skills_html}</section>
   <section><h2>Selected Projects</h2>{''.join(project_html)}</section>
-  <section><h2>Education &amp; Training</h2>{education_html}{training_html}</section>
+  <section><h2>{"Education &amp; Training" if training_html else "Education"}</h2>{education_html}{training_html}</section>
   <section><h2>Selected Certifications</h2><ul class="certifications">{certifications_html}</ul></section>
   <section><h2>Languages</h2><p>{languages_html}</p></section>
 </body>

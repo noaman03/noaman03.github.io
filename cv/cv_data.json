@@ -6,13 +6,13 @@
   "github": "github.com/noaman03",
   "portfolio": "https://noaman03.github.io",
   "linkedin": "linkedin.com/in/ahmed-noaman-07ab162b4",
-  "summary": "Flutter developer and Computer Engineering student who has taken a product from an empty repository to a published app: Strong 8K, a cross-platform IPTV streaming client for Android, Android TV and Windows, delivered end to end as a freelance engagement. Comfortable across the whole delivery path - Flutter and native Kotlin playback code, a Node.js service with nginx and systemd on Linux, white-label build tooling, CI, and app-store submission - and recently completed a DevOps engineering course covering Docker, Kubernetes, Terraform, Ansible, Jenkins, GitHub Actions, Argo CD, Prometheus and Grafana on AWS and Azure. Completed AMIT Learning's Flutter Diploma with a 95% grade.",
+  "summary": "Flutter developer and Computer Engineering student who has taken a product from an empty repository to the stores: Strong 8K, a cross-platform live TV and on-demand streaming client for Android, Android TV and Windows, delivered end to end as a freelance engagement and published on Google Play and the Microsoft Store. Comfortable across the whole delivery path - Flutter and native Kotlin playback code, a Node.js service with nginx and systemd on Linux, white-label build tooling, CI, and app-store submission - and holds a DevOps Engineering Diploma from Andalusia covering Docker, Kubernetes, Terraform, Ansible, Jenkins, GitHub Actions, Argo CD, Prometheus and Grafana on AWS and Azure. Completed AMIT Learning's Flutter Diploma with a 95% grade.",
   "experience": [
     {
       "role": "Freelance Flutter & Platform Developer",
-      "organisation": "Strong 8K (IPTV streaming client)",
+      "organisation": "Strong 8K (streaming client)",
       "period": "Jul 2026 - Oct 2026",
-      "description": "Freelance engagement as sole developer of a white-label IPTV/OTT player for Android phones, tablets and D-pad TV boxes and for Windows desktop: live TV, movies, series, radio, EPG, time-shift, catch-up, downloads, device activation and parental controls. Published on the Microsoft Store; Android 1.0.9 release-ready for Google Play.",
+      "description": "Freelance engagement as sole developer of a white-label streaming player for Android phones, tablets and D-pad TV boxes and for Windows desktop: live TV, movies, series, radio, EPG, time-shift, catch-up, downloads, device activation and parental controls. Published on Google Play and the Microsoft Store; App Store release in preparation.",
       "stack": "Flutter, Dart, Provider, Kotlin (Media3/ExoPlayer platform view), libmpv via media_kit, Node.js, Express, React (react-admin), nginx, systemd, Let's Encrypt, Codemagic CI, MSIX",
       "bullets": [
         "Built the Flutter client - 173 Dart files, 51 screens, three locales with full RTL Arabic - with one UI over two playback engines (Media3/ExoPlayer on Android, libmpv on Windows).",
@@ -21,11 +21,15 @@
         "Moved a ~27 MB offline catalogue and ~118k-entry guide into isolate workers with delta sync, single-flight writes and crash-safe rename-on-complete, so weak TV boxes stay responsive.",
         "Wrote and deployed the reviewer demo service (Node.js/Express, 2,600 LOC, two dependencies, timing-safe auth) on Ubuntu behind nginx and TLS, with a 2,375-line idempotent installer and a 780-line post-deploy smoke test.",
         "Built a 1,800-line white-label build driver that turns one codebase into 15 brand configurations, restores every touched file on failure, and a Codemagic pipeline that runs analysis and 2,600+ tests and verifies the produced binary is a genuine release build.",
-        "Grew the test suite with the code: 131 test files, 2,603 passing tests at the final commit; led both Microsoft Store (MSIX) and Google Play submission paperwork, data-safety and TV-banner requirements."
+        "Grew the test suite with the code - 131 test files, 2,603 passing tests at the final commit - and took the app through Google Play and Microsoft Store (MSIX) review, including data-safety declarations and Android TV banner requirements."
       ],
       "links": [
         {
-          "label": "Microsoft Store listing",
+          "label": "Google Play",
+          "url": "https://play.google.com/store/apps/details?id=com.strong8k.player_desktop"
+        },
+        {
+          "label": "Microsoft Store",
           "url": "https://apps.microsoft.com/detail/9NMC00K9G60N"
         },
         {
@@ -45,14 +49,6 @@
       "degree": "High School Diploma",
       "school": "Sidi Gaber Language School",
       "period": ""
-    }
-  ],
-  "training": [
-    {
-      "name": "DevOps Engineering Course (completed)",
-      "provider": "",
-      "period": "2026",
-      "details": "Linux, Docker, Kubernetes, Jenkins, GitHub Actions, AWS, Azure, Terraform, Ansible, Argo CD, Prometheus, Grafana"
     }
   ],
   "skills": [
@@ -118,6 +114,7 @@
   ],
   "certifications": [
     "Flutter Diploma (Grade: 95%) - AMIT Learning",
+    "DevOps Engineering Diploma (2026) - Andalusia",
     "Developing iOS Applications with Swift - ITI",
     "Developing Back-End Apps with Node.js and Express - IBM",
     "Quality Assurance - Techniques & Methodologies",

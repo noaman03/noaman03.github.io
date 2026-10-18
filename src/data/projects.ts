@@ -55,13 +55,13 @@ export const projects: Project[] = [
       'Strong 8K — Live TV and On-Demand Streaming Client for Android, Android TV and Windows',
     category: 'Freelance · Streaming & Media Player',
     summary:
-      'A white-label streaming player delivered end to end as a freelance engagement: live TV, movies, series, radio, EPG, time-shift and catch-up on Android phones, tablets, TV boxes and Windows, published on the Microsoft Store.',
+      'A white-label streaming player delivered end to end as a freelance engagement: live TV, movies, series, radio, EPG, time-shift and catch-up on Android phones, tablets, TV boxes and Windows, published on Google Play and the Microsoft Store.',
     overview: [
       'Strong 8K activates a device against a reseller panel or signs in to an Xtream Codes line, then plays live television, on-demand movies and series, radio, a programme guide, time-shift and catch-up. One Flutter UI drives two playback engines: Media3/ExoPlayer through a native Kotlin platform view on Android, and libmpv through media_kit on Windows. The interface is built for landscape, D-pad navigation and three locales including right-to-left Arabic.',
       'The engagement ran from July to October 2026 as sole developer: 195 commits, 173 Dart files, 51 screens and a test suite that grew with the code to 2,603 passing tests. Alongside the client it included a Node.js reviewer demo service deployed on Ubuntu behind nginx and TLS, a React admin portal, a white-label build driver that produces fifteen brand configurations from one codebase, and a Codemagic pipeline that verifies the produced binary is a genuine release build. The source is client-owned and private; this page links to the store listing and reviewed screenshots instead.',
     ],
     featured: true,
-    status: 'Published product · Microsoft Store',
+    status: 'Published on Google Play and the Microsoft Store',
     labels: ['Featured Project', 'Freelance', 'Published'],
     stack: [
       'Flutter',
@@ -84,6 +84,10 @@ export const projects: Project[] = [
       'Deliberately plain layering: one Session ChangeNotifier for application state, Provider at the root, static service singletons over SharedPreferences and JSON files, Navigator 1.0, no DI container and no code generation. Brand identity, palette and feature toggles are injected at build time from a per-client config file.',
     platforms: 'Android, Android TV, Windows',
     links: [
+      {
+        label: 'Google Play',
+        url: 'https://play.google.com/store/apps/details?id=com.strong8k.player_desktop',
+      },
       {
         label: 'Microsoft Store',
         url: 'https://apps.microsoft.com/detail/9NMC00K9G60N',
@@ -158,7 +162,7 @@ export const projects: Project[] = [
       height: height as number,
       alt: alt as string,
     })),
-    note: 'Screenshots were captured against the purpose-built reviewer demo line, so the catalogue is Blender open movies under CC-BY and no customer data appears. Android 1.0.9 is release-ready; the client code is private and client-owned.',
+    note: 'Screenshots were captured against the purpose-built reviewer demo line, so the catalogue is Blender open movies under CC-BY and no customer data appears. Published on Google Play and the Microsoft Store; an App Store release is in preparation. The client code is private and client-owned.',
   },
   {
     slug: 'khayyer',

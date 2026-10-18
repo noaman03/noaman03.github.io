@@ -112,6 +112,7 @@ export const expertise = [
 
 export const certifications = [
   'Flutter Diploma — AMIT Learning — Grade 95%',
+  'DevOps Engineering Diploma — Andalusia — 2026',
   'Developing iOS Applications with Swift — ITI',
   'Developing Back-End Apps with Node.js and Express — IBM',
   'Quality Assurance — Techniques and Methodologies',
