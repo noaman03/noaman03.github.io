@@ -129,6 +129,7 @@ expect(
 expect(home.includes('UI-Only Project'), 'UI-only project label is missing.');
 
 const thumbnails = [
+  'strong-8k',
   'khayyer',
   'psa-academy',
   'padel-system',

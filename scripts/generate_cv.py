@@ -10,7 +10,7 @@ from pathlib import Path
 from pypdf import PdfReader, PdfWriter
 from pypdf.generic import NameObject, TextStringObject
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.enums import TA_CENTER, TA_RIGHT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
@@ -47,9 +47,28 @@ def load_data() -> dict:
     return json.loads(DATA_PATH.read_text(encoding="utf-8"))
 
 
+FONT_DIR = ROOT / "cv" / "fonts"
+# Segoe UI is used when the CV is built on Windows. Elsewhere (CI, Linux, macOS)
+# the bundled Selawik family (Microsoft's open-source, metric-compatible
+# alternative, SIL OFL) keeps the layout and pagination identical.
+FONT_CANDIDATES = {
+    "Segoe": (Path(r"C:\Windows\Fonts\segoeui.ttf"), FONT_DIR / "Selawik-Regular.ttf"),
+    "Segoe-Semibold": (Path(r"C:\Windows\Fonts\seguisb.ttf"), FONT_DIR / "Selawik-Bold.ttf"),
+}
+
+
+def register_fonts() -> None:
+    for name, candidates in FONT_CANDIDATES.items():
+        for candidate in candidates:
+            if candidate.exists():
+                pdfmetrics.registerFont(TTFont(name, str(candidate)))
+                break
+        else:
+            raise FileNotFoundError(f"No font file found for {name}: {candidates}")
+
+
 def make_styles() -> dict[str, ParagraphStyle]:
-    pdfmetrics.registerFont(TTFont("Segoe", r"C:\Windows\Fonts\segoeui.ttf"))
-    pdfmetrics.registerFont(TTFont("Segoe-Semibold", r"C:\Windows\Fonts\seguisb.ttf"))
+    register_fonts()
     base = getSampleStyleSheet()
     return {
         "name": ParagraphStyle(
@@ -143,6 +162,15 @@ def make_styles() -> dict[str, ParagraphStyle]:
             textColor=INK,
             spaceAfter=2,
         ),
+        "period": ParagraphStyle(
+            "Period",
+            parent=base["BodyText"],
+            fontName="Segoe-Semibold",
+            fontSize=7.6,
+            leading=12,
+            textColor=MUTED,
+            alignment=TA_RIGHT,
+        ),
     }
 
 
@@ -162,6 +190,45 @@ def project_block(project: dict, styles: dict[str, ParagraphStyle]) -> KeepToget
     ]
     for bullet in project["bullets"]:
         flow.append(Paragraph(f"• {html.escape(bullet)}", styles["bullet"]))
+    flow.append(Spacer(1, 1.3 * mm))
+    return KeepTogether(flow)
+
+
+def experience_block(entry: dict, styles: dict[str, ParagraphStyle]) -> KeepTogether:
+    heading = Table(
+        [
+            [
+                Paragraph(f"{html.escape(entry['role'])} - {html.escape(entry['organisation'])}", styles["project"]),
+                Paragraph(html.escape(entry["period"]), styles["period"]),
+            ]
+        ],
+        colWidths=[134 * mm, 40 * mm],
+        hAlign="LEFT",
+    )
+    heading.setStyle(
+        TableStyle(
+            [
+                ("VALIGN", (0, 0), (-1, -1), "BOTTOM"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 0),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 0),
+                ("TOPPADDING", (0, 0), (-1, -1), 0),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 0),
+            ]
+        )
+    )
+    flow = [
+        heading,
+        Paragraph(html.escape(entry["description"]), styles["body"]),
+        Paragraph(f"<b>Stack:</b> {html.escape(entry['stack'])}", styles["meta"]),
+    ]
+    for bullet in entry["bullets"]:
+        flow.append(Paragraph(f"• {html.escape(bullet)}", styles["bullet"]))
+    if entry.get("links"):
+        links = " | ".join(
+            f"<link href='{html.escape(link['url'])}' color='{LINK.hexval()}'>{html.escape(link['label'])}</link>"
+            for link in entry["links"]
+        )
+        flow.append(Paragraph(links, styles["meta"]))
     flow.append(Spacer(1, 1.3 * mm))
     return KeepTogether(flow)
 
@@ -201,7 +268,22 @@ def build_pdf(data: dict) -> None:
     story.extend(section_heading("Professional Summary", styles))
     story.append(Paragraph(html.escape(data["summary"]), styles["body"]))
 
-    story.extend(section_heading("Education", styles))
+    if data.get("experience"):
+        story.extend(section_heading("Freelance Experience", styles))
+        for entry in data["experience"]:
+            story.append(experience_block(entry, styles))
+
+    story.extend(section_heading("Technical Skills", styles))
+    for skill in data["skills"]:
+        story.append(Paragraph(f"<b>{html.escape(skill['category'])}:</b> {html.escape(skill['items'])}", styles["small"]))
+
+    story.extend(section_heading("Selected Projects", styles))
+    for index, project in enumerate(data["projects"]):
+        if index == data.get("page_break_before_project", -1):
+            story.append(PageBreak())
+        story.append(project_block(project, styles))
+
+    story.extend(section_heading("Education & Training", styles))
     for education in data["education"]:
         period = f" | {html.escape(education['period'])}" if education["period"] else ""
         story.append(
@@ -210,16 +292,15 @@ def build_pdf(data: dict) -> None:
                 styles["small"],
             )
         )
-
-    story.extend(section_heading("Technical Skills", styles))
-    for skill in data["skills"]:
-        story.append(Paragraph(f"<b>{html.escape(skill['category'])}:</b> {html.escape(skill['items'])}", styles["small"]))
-
-    story.extend(section_heading("Selected Projects", styles))
-    story.append(project_block(data["projects"][0], styles))
-    story.append(project_block(data["projects"][1], styles))
-    story.append(PageBreak())
-    story.append(project_block(data["projects"][2], styles))
+    for course in data.get("training", []):
+        period = f" | {html.escape(course['period'])}" if course.get("period") else ""
+        story.append(
+            Paragraph(
+                f"<b>{html.escape(course['name'])}</b> | {html.escape(course['provider'])}{period}"
+                + (f" - {html.escape(course['details'])}" if course.get("details") else ""),
+                styles["small"],
+            )
+        )
 
     story.extend(section_heading("Selected Certifications", styles))
     cert_rows = []
@@ -274,6 +355,30 @@ def build_pdf(data: dict) -> None:
 
 
 def build_html(data: dict) -> None:
+    experience_html = []
+    for entry in data.get("experience", []):
+        bullets = "".join(f"<li>{html.escape(item)}</li>" for item in entry["bullets"])
+        links = " | ".join(
+            f'<a href="{html.escape(link["url"])}">{html.escape(link["label"])}</a>' for link in entry.get("links", [])
+        )
+        experience_html.append(
+            f"""
+            <article class="project">
+              <h3>{html.escape(entry['role'])} <span>- {html.escape(entry['organisation'])}</span> <em class="period">{html.escape(entry['period'])}</em></h3>
+              <p>{html.escape(entry['description'])}</p>
+              <p class="stack"><strong>Stack:</strong> {html.escape(entry['stack'])}</p>
+              <ul>{bullets}</ul>
+              {f'<p class="stack">{links}</p>' if links else ''}
+            </article>
+            """
+        )
+    training_html = "".join(
+        f"<p><strong>{html.escape(item['name'])}</strong> | {html.escape(item['provider'])}"
+        + (f" | {html.escape(item['period'])}" if item.get("period") else "")
+        + (f" - {html.escape(item['details'])}" if item.get("details") else "")
+        + "</p>"
+        for item in data.get("training", [])
+    )
     project_html = []
     for project in data["projects"]:
         bullets = "".join(f"<li>{html.escape(item)}</li>" for item in project["bullets"])
@@ -319,6 +424,7 @@ def build_html(data: dict) -> None:
     .project {{ break-inside: avoid; margin-bottom: 10px; }}
     .project h3 {{ margin: 7px 0 3px; color: #102d4f; font-size: 14px; }}
     .project h3 span {{ color: #4a5969; font-weight: 600; }}
+    .project h3 .period {{ float: right; color: #4a5969; font-size: 12px; font-style: normal; font-weight: 600; }}
     .stack {{ color: #4a5969; font-size: 12px; }}
     ul {{ margin: 4px 0; padding-left: 20px; }}
     li {{ margin: 2px 0; }}
@@ -333,9 +439,10 @@ def build_html(data: dict) -> None:
     <p class="contact">{html.escape(data['location'])} | <a href="mailto:{html.escape(data['email'])}">{html.escape(data['email'])}</a> | <a href="https://{html.escape(data['github'])}">{html.escape(data['github'])}</a> | <a href="{html.escape(data['portfolio'])}">{html.escape(data['portfolio'])}</a> | <a href="https://www.{html.escape(data['linkedin'])}">LinkedIn</a></p>
   </header>
   <section><h2>Professional Summary</h2><p>{html.escape(data['summary'])}</p></section>
-  <section><h2>Education</h2>{education_html}</section>
+  {f"<section><h2>Freelance Experience</h2>{''.join(experience_html)}</section>" if experience_html else ''}
   <section><h2>Technical Skills</h2>{skills_html}</section>
   <section><h2>Selected Projects</h2>{''.join(project_html)}</section>
+  <section><h2>Education &amp; Training</h2>{education_html}{training_html}</section>
   <section><h2>Selected Certifications</h2><ul class="certifications">{certifications_html}</ul></section>
   <section><h2>Languages</h2><p>{languages_html}</p></section>
 </body>

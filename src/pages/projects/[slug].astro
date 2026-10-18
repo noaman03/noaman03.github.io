@@ -21,10 +21,11 @@ const structuredData = {
   applicationCategory: project.category,
   description: project.summary,
   url: `${profile.site}/projects/${project.slug}/`,
-  codeRepository: project.repository,
+  ...(project.repository ? { codeRepository: project.repository } : {}),
   ...(project.apkUrl ? { downloadUrl: project.apkUrl } : {}),
   author: { '@type': 'Person', name: profile.name },
-  operatingSystem: project.slug === 'psa-academy' ? 'Web' : 'Android',
+  operatingSystem:
+    project.platforms ?? (project.slug === 'psa-academy' ? 'Web' : 'Android'),
 };
 ---
 
@@ -75,13 +76,30 @@ const structuredData = {
               >
                 View Screenshots
               </button>
-              <a
-                class="button button-ghost"
-                href={project.repository}
-                target="_blank"
-                rel="noopener noreferrer"
-                >Source Code <span aria-hidden="true">↗</span></a
-              >
+              {
+                project.repository && (
+                  <a
+                    class="button button-ghost"
+                    href={project.repository}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Source Code <span aria-hidden="true">↗</span>
+                  </a>
+                )
+              }
+              {
+                project.links?.map((link) => (
+                  <a
+                    class="button button-ghost"
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.label} <span aria-hidden="true">↗</span>
+                  </a>
+                ))
+              }
               {
                 project.apkUrl && (
                   <a

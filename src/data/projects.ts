@@ -6,6 +6,11 @@ export type ProjectImage = {
   alt: string;
 };
 
+export type ProjectLink = {
+  label: string;
+  url: string;
+};
+
 export type Project = {
   slug: string;
   name: string;
@@ -19,7 +24,12 @@ export type Project = {
   stack: string[];
   highlights: string[];
   architecture: string;
-  repository: string;
+  /** Public source repository. Omitted for client-owned, private code. */
+  repository?: string;
+  /** Store listings, product sites, and other external links. */
+  links?: ProjectLink[];
+  /** Platforms the application ships on, for structured data. */
+  platforms?: string;
   liveUrl?: string;
   apkUrl?: string;
   video?: string;

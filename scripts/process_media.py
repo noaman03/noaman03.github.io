@@ -44,6 +44,26 @@ class ProjectMedia:
 
 PROJECTS = (
     ProjectMedia(
+        slug="strong-8k",
+        title="Strong 8K",
+        category="IPTV & Media Player · Freelance",
+        accent=(214, 170, 60),
+        thumbnail_source="strong8k_assets/feature-graphic.png",
+        thumbnail_treatment="supplied",
+        thumbnail_backdrop=(8, 8, 10),
+        thumbnail_tint_strength=0.6,
+        gallery=(
+            GalleryItem("strong8k_assets/01-home.png", "strong8k-home", 1200),
+            GalleryItem("strong8k_assets/02-live-tv.png", "strong8k-live-tv", 1200),
+            GalleryItem("strong8k_assets/03-movies.png", "strong8k-movies", 1200),
+            GalleryItem("strong8k_assets/04-movie-details.png", "strong8k-movie-details", 1200),
+            GalleryItem("strong8k_assets/05-movie-player.png", "strong8k-player", 1200),
+            GalleryItem("strong8k_assets/06-series.png", "strong8k-series", 1200),
+            GalleryItem("strong8k_assets/07-tablet-home.png", "strong8k-tablet-home", 1200),
+            GalleryItem("strong8k_assets/08-tablet-live-channel.png", "strong8k-tablet-live", 1200),
+        ),
+    ),
+    ProjectMedia(
         slug="khayyer",
         title="Khayyer",
         category="Graduation Project · AI & Food Donation",

@@ -100,15 +100,32 @@ const { project, lead = false, eager = false } = Astro.props;
       >
         View Screenshots
       </button>
-      <a
-        class="button button-ghost"
-        href={project.repository}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`View ${project.name} source code on GitHub (opens in a new tab)`}
-      >
-        Source Code <span aria-hidden="true">↗</span>
-      </a>
+      {
+        project.repository && (
+          <a
+            class="button button-ghost"
+            href={project.repository}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View ${project.name} source code on GitHub (opens in a new tab)`}
+          >
+            Source Code <span aria-hidden="true">↗</span>
+          </a>
+        )
+      }
+      {
+        project.links?.map((link) => (
+          <a
+            class="button button-ghost"
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${link.label} for ${project.name} (opens in a new tab)`}
+          >
+            {link.label} <span aria-hidden="true">↗</span>
+          </a>
+        ))
+      }
       {
         project.apkUrl && (
           <a
