@@ -369,10 +369,9 @@ export const projects: Project[] = [
     platforms: 'Web',
     thumbnail: {
       src: projectAsset('psa-academy', 'thumbnail.webp'),
-      srcSet: `${projectAsset('psa-academy', 'thumbnail-640.webp')} 640w, ${projectAsset('psa-academy', 'thumbnail.webp')} 1200w`,
-      width: 1200,
-      height: 675,
-      alt: 'PSA Academy loading screen preparing the academy dashboard.',
+      width: 480,
+      height: 874,
+      alt: 'PSA Academy admin dashboard with current balance, total attendance, active players and coaches, and quick actions for adding a user, training templates, expenses and PDF reports.',
     },
     gallery: [
       {
@@ -441,10 +440,9 @@ export const projects: Project[] = [
     platforms: 'Android',
     thumbnail: {
       src: projectAsset('padel-system', 'thumbnail.webp'),
-      srcSet: `${projectAsset('padel-system', 'thumbnail-640.webp')} 640w, ${projectAsset('padel-system', 'thumbnail.webp')} 1200w`,
-      width: 1200,
-      height: 675,
-      alt: 'Padelit project cover for court booking, open matches, tournaments, and club management.',
+      width: 640,
+      height: 1385,
+      alt: 'Padelit home screen with a welcome panel and Book a Court action, recent reservations at Cairo clubs priced in Egyptian pounds, and a popular courts row.',
     },
     gallery: [
       [
@@ -523,10 +521,9 @@ export const projects: Project[] = [
     platforms: 'Android',
     thumbnail: {
       src: projectAsset('ecommerce', 'thumbnail.webp'),
-      srcSet: `${projectAsset('ecommerce', 'thumbnail-640.webp')} 640w, ${projectAsset('ecommerce', 'thumbnail.webp')} 1200w`,
-      width: 1200,
-      height: 675,
-      alt: 'A-store home screen presented in a branded shopping application cover.',
+      width: 640,
+      height: 1425,
+      alt: 'A-store home screen with a store search field, popular category icons, a featured sneakers banner and a popular products grid with discount badges.',
     },
     gallery: [
       [
@@ -595,10 +592,9 @@ export const projects: Project[] = [
     platforms: 'Android',
     thumbnail: {
       src: projectAsset('instagram-clone', 'thumbnail.webp'),
-      srcSet: `${projectAsset('instagram-clone', 'thumbnail-640.webp')} 640w, ${projectAsset('instagram-clone', 'thumbnail.webp')} 1200w`,
-      width: 1200,
-      height: 675,
-      alt: 'Instagram-inspired Flutter feed shown in a neutral social application cover.',
+      width: 640,
+      height: 1425,
+      alt: 'The clone home feed with a stories row, a post from the test account with like, comment, share and save actions, and the bottom navigation bar.',
     },
     gallery: [
       [
@@ -657,10 +653,9 @@ export const projects: Project[] = [
     platforms: 'Android',
     thumbnail: {
       src: projectAsset('food-delivery-ui', 'thumbnail.webp'),
-      srcSet: `${projectAsset('food-delivery-ui', 'thumbnail-640.webp')} 640w, ${projectAsset('food-delivery-ui', 'thumbnail.webp')} 1200w`,
-      width: 1200,
-      height: 675,
-      alt: 'Food delivery Flutter UI showing the offers and restaurant discovery screen.',
+      width: 480,
+      height: 1015,
+      alt: 'Food delivery home screen with a delivery address, an offers banner and a list of restaurant deals showing prices and delivery times.',
     },
     gallery: [
       [
@@ -723,10 +718,9 @@ export const projects: Project[] = [
     platforms: 'Android',
     thumbnail: {
       src: projectAsset('todo', 'thumbnail.webp'),
-      srcSet: `${projectAsset('todo', 'thumbnail-640.webp')} 640w, ${projectAsset('todo', 'thumbnail.webp')} 1200w`,
-      width: 1200,
-      height: 675,
-      alt: 'Todo application dark home screen with tasks and a weather summary.',
+      width: 480,
+      height: 1015,
+      alt: 'Todo application home screen in its dark theme, with a current weather card and one active task showing its due date.',
     },
     gallery: [
       ['todo-home', 'Todo application task list with a weather summary.'],

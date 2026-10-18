@@ -760,6 +760,13 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
   height: auto;
 }
 
+/* A tall phone capture at the full column width would be twice the height of
+   the text beside it. Narrowing the well keeps the row one unit, and the
+   screenshot is still shown whole, at its own ratio, never cropped. */
+.project-card-portrait .project-card-media {
+  max-width: 13rem;
+}
+
 .project-summary {
   max-width: 62ch;
   color: var(--ink);
@@ -792,6 +799,10 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
     display: grid;
     gap: clamp(1.25rem, 3vw, 2rem);
     grid-template-columns: 1fr 1.2fr;
+  }
+
+  .project-card-portrait .project-card-body {
+    grid-template-columns: 13rem 1fr;
   }
 
   .project-card-body > div {

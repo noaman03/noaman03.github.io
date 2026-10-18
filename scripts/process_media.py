@@ -35,6 +35,7 @@ class ProjectMedia:
     thumbnail_source: str
     gallery: tuple[GalleryItem, ...]
     thumbnail_treatment: str = "branded"
+    thumbnail_max_width: int = 1200
     thumbnail_backdrop: tuple[int, int, int] = (7, 16, 31)
     thumbnail_tint_strength: float = 0.48
     funding_label: str | None = None
@@ -87,10 +88,9 @@ PROJECTS = (
         title="PSA Academy",
         category="Sports Management & Analytics",
         accent=(34, 211, 238),
-        thumbnail_source="psa_academy_assets/portfolio-thumbnail.png",
-        thumbnail_treatment="supplied",
-        thumbnail_backdrop=(10, 136, 139),
-        thumbnail_tint_strength=0.18,
+        thumbnail_source="psa_academy_assets/1781978022287.jpeg",
+        thumbnail_treatment="capture",
+        thumbnail_max_width=640,
         gallery=(
             GalleryItem("psa_academy_assets/1781978020545.jpeg", "psa-athlete-workout", 480),
             GalleryItem("psa_academy_assets/1781978020699.jpeg", "psa-qr-attendance", 480),
@@ -103,10 +103,9 @@ PROJECTS = (
         title="Padel System",
         category="Booking & Club Management",
         accent=(61, 225, 170),
-        thumbnail_source="padel_system_assets/portfolio-thumbnail.png",
-        thumbnail_treatment="supplied",
-        thumbnail_backdrop=(3, 27, 20),
-        thumbnail_tint_strength=0.58,
+        thumbnail_source="padel_system_assets/02-light-home.png",
+        thumbnail_treatment="capture",
+        thumbnail_max_width=640,
         video_source="padel_system_assets/padelit-demo.mp4",
         video_output="padel-demo.mp4",
         gallery=(
@@ -129,6 +128,8 @@ PROJECTS = (
         category="Shopping Application",
         accent=(96, 165, 250),
         thumbnail_source="ecommerce-assets/home.png",
+        thumbnail_treatment="capture",
+        thumbnail_max_width=640,
         video_source="ecommerce-assets/A-store-portfolio-demo.mp4",
         video_output="ecommerce-demo.mp4",
         gallery=(
@@ -145,6 +146,8 @@ PROJECTS = (
         category="Social Media Application",
         accent=(244, 114, 182),
         thumbnail_source="instgram_clone_assets/home-feed.png",
+        thumbnail_treatment="capture",
+        thumbnail_max_width=640,
         gallery=(
             GalleryItem("instgram_clone_assets/splash.png", "instagram-splash", 960),
             GalleryItem("instgram_clone_assets/login.png", "instagram-login", 960),
@@ -158,6 +161,8 @@ PROJECTS = (
         category="Flutter UI Concept",
         accent=(251, 146, 60),
         thumbnail_source="food_delivery_assets/1781115770250.jpeg",
+        thumbnail_treatment="capture",
+        thumbnail_max_width=640,
         gallery=(
             GalleryItem("food_delivery_assets/1781115770250.jpeg", "food-delivery-home", 480),
             GalleryItem("food_delivery_assets/1781115766231.jpeg", "food-delivery-basket", 480),
@@ -171,6 +176,8 @@ PROJECTS = (
         category="Productivity Application",
         accent=(167, 139, 250),
         thumbnail_source="todo_assets/1781116072510.jpeg",
+        thumbnail_treatment="capture",
+        thumbnail_max_width=640,
         gallery=(
             GalleryItem("todo_assets/1781116072510.jpeg", "todo-home", 480),
             GalleryItem("todo_assets/1781116072403.jpeg", "todo-due-date", 480),
@@ -276,6 +283,20 @@ def supplied_thumbnail(project: ProjectMedia) -> Image.Image:
     return canvas
 
 
+def capture_thumbnail(project: ProjectMedia) -> Image.Image:
+    """Return the chosen screenshot itself, unchanged.
+
+    A project row should show the application, not a picture of a phone on a
+    gradient. The site already frames every screenshot the same way the device
+    ladder does -- page background behind it, one hairline border around it,
+    its own aspect ratio -- so the treatment here is deliberately to do nothing:
+    no backdrop, no blur, no tint, no device bezel, no crop. Anything added
+    here would fight the theme, because the frame belongs to the stylesheet.
+    """
+    with Image.open(ROOT / project.thumbnail_source) as opened:
+        return ImageOps.exif_transpose(opened).convert("RGB")
+
+
 def wrap_title(draw: ImageDraw.ImageDraw, title: str, title_font: ImageFont.FreeTypeFont, max_width: int) -> list[str]:
     words = title.split()
     lines: list[str] = []
@@ -293,6 +314,8 @@ def wrap_title(draw: ImageDraw.ImageDraw, title: str, title_font: ImageFont.Free
 
 
 def thumbnail(project: ProjectMedia) -> Image.Image:
+    if project.thumbnail_treatment == "capture":
+        return capture_thumbnail(project)
     if project.thumbnail_treatment == "supplied":
         return supplied_thumbnail(project)
 
@@ -370,13 +393,24 @@ def main() -> None:
     report: dict[str, object] = {"projects": {}, "source_hashes": {}}
 
     for project in PROJECTS:
+        # Source media is gitignored, so a checkout may hold only some of it.
+        # Skip what is not here rather than failing the whole run, and say so.
+        sources = [project.thumbnail_source, *(item.source for item in project.gallery)]
+        if project.video_source:
+            sources.append(project.video_source)
+        missing = [name for name in sources if not (ROOT / name).exists()]
+        if missing:
+            print(f"skip {project.slug}: {len(missing)} source file(s) not in this checkout")
+            continue
+
         destination = PUBLIC / project.slug
         destination.mkdir(parents=True, exist_ok=True)
         master = thumbnail(project)
         master_path = MASTERS / f"{project.slug}-thumbnail-master.png"
         master.save(master_path, "PNG", optimize=True)
-        save_modern(master, destination / "thumbnail", 1200)
-        save_modern(master, destination / "thumbnail-640", 640)
+        width, _ = save_modern(master, destination / "thumbnail", project.thumbnail_max_width)
+        if width > 640:
+            save_modern(master, destination / "thumbnail-640", 640)
 
         gallery_report = []
         for item in project.gallery:
