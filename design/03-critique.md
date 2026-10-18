@@ -149,10 +149,9 @@ Ahmed's call, not mine.
 
 - **Real devices.** Everything here was checked in Chromium (headless, and the desktop app's
   browser pane). No Safari, no Firefox, no physical phone, no Android TV browser.
-- **The Google Play listing.** Patch `0003` asserts Strong 8K is live on Play and the site now
-  links to it; `strong8k-brief.md` §7.2 still lists that as an open question, and I did not open
-  the URL to confirm. **If the listing is not live, that link and the words "Google Play" need to
-  come out of `projects.ts` before this merges.**
+- ~~**The Google Play listing.**~~ **Resolved: Ahmed confirmed on 2026-10-19 that Strong 8K is
+  live on Google Play at the URL in `projects.ts`.** This closes `strong8k-brief.md` §7.2, which
+  had it as an open question. The link and the "Google Play" wording stay.
 - **Lighthouse, CLS and real LCP.** Not run. Every image has explicit dimensions and the font is
   preloaded with `font-display: swap` and a matched fallback stack, so layout shift should be
   near zero, but "should be" is not a measurement.
