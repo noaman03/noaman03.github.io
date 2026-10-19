@@ -2,7 +2,7 @@ export const profile = {
   name: 'Ahmed Mohamed Noaman',
   shortName: 'Ahmed Noaman',
   title: 'Flutter Developer & Mobile Application Engineer',
-  location: 'Cairo and Alexandria, Egypt',
+  location: 'Cairo, Egypt',
   email: 'noamana455@gmail.com',
   github: 'https://github.com/noaman03',
   linkedin: 'https://www.linkedin.com/in/ahmed-noaman-07ab162b4',

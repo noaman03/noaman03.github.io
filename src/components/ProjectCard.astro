@@ -25,6 +25,12 @@ const labels = project.labels.filter(
     label !== 'Featured Project' && !status.includes(label.toLowerCase()),
 );
 
+/* Thumbnails are now the real captures, so they arrive in whatever shape the
+   app was photographed in: 16:9 for Strong 8K and Khayyer, tall phone screens
+   for the rest. A portrait capture gets a narrower media column so the row
+   still reads as one unit instead of a column of text beside a tower. */
+const portrait = project.thumbnail.height > project.thumbnail.width;
+
 const platforms = (project.platforms ?? '')
   .split(',')
   .map((part) => part.trim())
@@ -32,7 +38,10 @@ const platforms = (project.platforms ?? '')
 ---
 
 <article
-  class:list={['project-card', { 'project-card-shipped': shipped }]}
+  class:list={[
+    'project-card',
+    { 'project-card-shipped': shipped, 'project-card-portrait': portrait },
+  ]}
   id={`project-${project.slug}`}
 >
   <div class="project-row-head">
@@ -55,7 +64,9 @@ const platforms = (project.platforms ?? '')
           image={project.thumbnail}
           loading={eager ? 'eager' : 'lazy'}
           fetchpriority={eager ? 'high' : 'auto'}
-          sizes="(min-width: 1120px) 458px, (min-width: 768px) 38vw, 100vw"
+          sizes={portrait
+            ? '13rem'
+            : '(min-width: 1120px) 458px, (min-width: 768px) 38vw, 100vw'}
         />
       </a>
     </div>

@@ -26,6 +26,7 @@
   --ink: #17150f;
   --ink-quiet: #5c584c;
   --rule: #d6d2c7;
+  --frame: #8f8674;
   --gold: #8a6512;
 
   /* Identical in both themes on purpose: a screen is a screen. */
@@ -57,6 +58,7 @@
     --ink: #edebe4;
     --ink-quiet: #a8a294;
     --rule: #2e2a22;
+    --frame: #6b644f;
     --gold: #d7a33f;
   }
 }
@@ -68,6 +70,7 @@
   --ink: #edebe4;
   --ink-quiet: #a8a294;
   --rule: #2e2a22;
+  --frame: #6b644f;
   --gold: #d7a33f;
 }
 
@@ -576,9 +579,10 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 
 @media (min-width: 900px) {
   /* The lead starts at column 4 while the display line starts at column 1,
-     so the opening reads as a shape rather than a stack. */
-  .hero-lead,
-  .hero-section .button-row {
+     so the opening reads as a shape rather than a stack. The buttons stay on
+     the left rule, where they line up with the phone well below them; moving
+     them in as well left a hole in the bottom-left of the first screen. */
+  .hero-lead {
     margin-left: 25%;
   }
 }
@@ -602,7 +606,7 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 }
 
 .ladder-well picture {
-  border: 1px solid var(--rule);
+  border: 1px solid var(--frame);
   background: var(--screen);
 }
 
@@ -648,16 +652,13 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 
 .ladder-note {
   max-width: 62ch;
+  /* Two lines, evenly split, rather than a long line and a three-word widow. */
+  text-wrap: balance;
   margin-top: 1.25rem;
   padding-top: 1rem;
   border-top: 1px solid var(--gold);
   color: var(--ink);
   font-size: var(--t-small);
-}
-
-.ladder-note span {
-  display: block;
-  color: var(--ink-quiet);
 }
 
 /* A single well, for projects that have only one screen class. */
@@ -666,7 +667,7 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 }
 
 .screen-well picture {
-  border: 1px solid var(--rule);
+  border: 1px solid var(--frame);
   background: var(--screen);
 }
 
@@ -685,8 +686,8 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 
 .heading-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 2rem;
+  flex-wrap: nowrap;
+  gap: 1rem;
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: 2rem;
@@ -694,8 +695,15 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
   border-bottom: 1px solid var(--rule);
 }
 
+.heading-row .section-heading {
+  min-width: 0;
+}
+
 .heading-row .meta {
+  flex: 0 1 auto;
   margin-left: auto;
+  text-align: right;
+  text-wrap: balance;
 }
 
 /* --- project rows ---------------------------------------------------- */
@@ -751,7 +759,7 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 
 .project-card-media {
   display: block;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--frame);
   background: var(--screen);
 }
 
@@ -760,12 +768,21 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
   height: auto;
 }
 
+/* A tall phone capture at the full column width would be twice the height of
+   the text beside it. Narrowing the well keeps the row one unit, and the
+   screenshot is still shown whole, at its own ratio, never cropped. */
+.project-card-portrait .project-card-media {
+  max-width: 13rem;
+}
+
 .project-summary {
   max-width: 62ch;
   color: var(--ink);
 }
 
 .project-status {
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--rule);
   color: var(--ink-quiet);
   font-size: var(--t-small);
 }
@@ -792,6 +809,10 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
     display: grid;
     gap: clamp(1.25rem, 3vw, 2rem);
     grid-template-columns: 1fr 1.2fr;
+  }
+
+  .project-card-portrait .project-card-body {
+    grid-template-columns: 13rem 1fr;
   }
 
   .project-card-body > div {
@@ -879,6 +900,10 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
   margin-bottom: 0.75rem;
   color: var(--ink-quiet);
   font-size: var(--t-small);
+}
+
+.table-unproven dd {
+  color: var(--ink-quiet);
 }
 
 /* --- figure tables (about, shipped facts) ---------------------------- */
@@ -1081,7 +1106,7 @@ details[open] > summary::before {
   display: block;
   width: 100%;
   padding: 0;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--frame);
   background: var(--screen);
   cursor: pointer;
   text-align: left;
