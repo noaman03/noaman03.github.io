@@ -214,7 +214,7 @@ export const projects: Project[] = [
     ladder: {
       phone: strong8kGallery[0],
       tablet: strong8kGallery[6],
-      note: 'One Flutter codebase. It also ships to Android TV and to Windows through the Microsoft Store; those two have no capture here, so they are named rather than pictured.',
+      note: 'One Flutter codebase. It also ships to Android TV and Windows; neither has a capture here.',
     },
     caseStudy: {
       facts: [

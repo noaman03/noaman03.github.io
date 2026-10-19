@@ -576,9 +576,10 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 
 @media (min-width: 900px) {
   /* The lead starts at column 4 while the display line starts at column 1,
-     so the opening reads as a shape rather than a stack. */
-  .hero-lead,
-  .hero-section .button-row {
+     so the opening reads as a shape rather than a stack. The buttons stay on
+     the left rule, where they line up with the phone well below them; moving
+     them in as well left a hole in the bottom-left of the first screen. */
+  .hero-lead {
     margin-left: 25%;
   }
 }
@@ -648,16 +649,13 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 
 .ladder-note {
   max-width: 62ch;
+  /* Two lines, evenly split, rather than a long line and a three-word widow. */
+  text-wrap: balance;
   margin-top: 1.25rem;
   padding-top: 1rem;
   border-top: 1px solid var(--gold);
   color: var(--ink);
   font-size: var(--t-small);
-}
-
-.ladder-note span {
-  display: block;
-  color: var(--ink-quiet);
 }
 
 /* A single well, for projects that have only one screen class. */
@@ -685,8 +683,8 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 
 .heading-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 2rem;
+  flex-wrap: nowrap;
+  gap: 1rem;
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: 2rem;
@@ -694,8 +692,15 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
   border-bottom: 1px solid var(--rule);
 }
 
+.heading-row .section-heading {
+  min-width: 0;
+}
+
 .heading-row .meta {
+  flex: 0 1 auto;
   margin-left: auto;
+  text-align: right;
+  text-wrap: balance;
 }
 
 /* --- project rows ---------------------------------------------------- */
@@ -773,6 +778,8 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 }
 
 .project-status {
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--rule);
   color: var(--ink-quiet);
   font-size: var(--t-small);
 }
@@ -890,6 +897,10 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
   margin-bottom: 0.75rem;
   color: var(--ink-quiet);
   font-size: var(--t-small);
+}
+
+.table-unproven dd {
+  color: var(--ink-quiet);
 }
 
 /* --- figure tables (about, shipped facts) ---------------------------- */
