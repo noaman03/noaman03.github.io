@@ -26,6 +26,7 @@
   --ink: #17150f;
   --ink-quiet: #5c584c;
   --rule: #d6d2c7;
+  --frame: #8f8674;
   --gold: #8a6512;
 
   /* Identical in both themes on purpose: a screen is a screen. */
@@ -57,6 +58,7 @@
     --ink: #edebe4;
     --ink-quiet: #a8a294;
     --rule: #2e2a22;
+    --frame: #6b644f;
     --gold: #d7a33f;
   }
 }
@@ -68,6 +70,7 @@
   --ink: #edebe4;
   --ink-quiet: #a8a294;
   --rule: #2e2a22;
+  --frame: #6b644f;
   --gold: #d7a33f;
 }
 
@@ -603,7 +606,7 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 }
 
 .ladder-well picture {
-  border: 1px solid var(--rule);
+  border: 1px solid var(--frame);
   background: var(--screen);
 }
 
@@ -664,7 +667,7 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 }
 
 .screen-well picture {
-  border: 1px solid var(--rule);
+  border: 1px solid var(--frame);
   background: var(--screen);
 }
 
@@ -756,7 +759,7 @@ html[data-focus-ring='on'] dialog[open] :focus-visible {
 
 .project-card-media {
   display: block;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--frame);
   background: var(--screen);
 }
 
@@ -1103,7 +1106,7 @@ details[open] > summary::before {
   display: block;
   width: 100%;
   padding: 0;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--frame);
   background: var(--screen);
   cursor: pointer;
   text-align: left;

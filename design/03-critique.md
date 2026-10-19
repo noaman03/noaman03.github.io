@@ -158,3 +158,76 @@ Ahmed's call, not mine.
 - **Print.** There are no print styles, before or after.
   All six width/theme combinations were checked: 360, 768 and 1280 px in both themes, with no
   horizontal overflow at any of them (document scrollWidth equals clientWidth throughout).
+
+---
+
+# After follow-up
+
+Done on branch `fix/portfolio-followup`, against the review of the merged redesign. Screenshots
+for this round are in `design/screens/`, now at 360 and 1280 px in **both** themes.
+
+## Closed
+
+| #   | Item                                         | What changed                                                                                                                                                                                                                                                                                                                                          |
+| --- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Marketing-render thumbnails                  | Six projects now show a real capture: PSA Academy's admin dashboard, Padelit's home screen, A-store's home, the clone's feed, the food-delivery offers screen and Todo's dark home. A new `capture` treatment in `scripts/process_media.py` emits the screenshot unchanged, because the stylesheet already supplies the frame the device ladder uses. |
+| 3   | Empty bottom-left quadrant at 1280           | The hero buttons return to the left rule, where they line up with the phone well directly below. Only the lead paragraph is still indented, so the offset reads as one deliberate move rather than a block with a hole under it.                                                                                                                      |
+| 4   | Four kinds of information stacked in the row | One hairline above the status line separates what a project _is_ from what it is _made of_. No box.                                                                                                                                                                                                                                                   |
+| 5   | "8 total. 1 in a store." stranded at 360 px  | The heading row no longer wraps. The count keeps its column and wraps inside it, right-aligned, so it stays a caption on the heading at every width.                                                                                                                                                                                                  |
+| 6   | The three-line ladder note                   | Two even lines now ("One Flutter codebase. It also ships to Android TV and Windows; neither has a capture here."), balanced with `text-wrap: balance`. The provenance sentence it repeated lives on the Strong 8K page, under the gallery it describes.                                                                                               |
+
+## Partly closed, and why
+
+**Item 2, the one-pace page.** The brief said not to fix this with decoration, and to use the
+skills split if anything. That is what I did: the studied-but-unproven half of the skills list is
+now set in the quiet ink, so a reader can see at a glance that it is a different class of claim
+without reading the note above it. That is information, not rhythm. **The rest of the pace
+problem stands and I am leaving it.** A long single-column page read at one pace is the price of
+having no cards and no scroll animation, and I would rather pay it than invent a section break
+that means nothing.
+
+## New in this round
+
+- **Light theme verified** at 360, 768 and 1280, which the first pass never screenshotted.
+  Gold on paper measures **4.75:1** — it passes AA for normal text, so it stays as text, as a
+  rule, and as the focus ring.
+- **A real frame on every media well.** `--rule`, the typographic hairline between blocks of
+  text, is 1.35:1 against the page by design. It was also the only edge around a screenshot, so
+  the light captures — PSA Academy, Padelit, A-store, the clone, food delivery — dissolved into
+  the paper. A new `--frame` token rings every well instead: **3.22:1** on paper, **3.32:1** on
+  the dark ground. Section rules and table rules keep `--rule`.
+- **Two facts corrected**: based in Cairo, and graduating January 2027. Both propagated to the
+  CV, which was regenerated and is still two pages.
+
+## Still open
+
+- **Khayyer's thumbnail is the last generated image on the home page.** All three of its gallery
+  images are presentation slides rather than captures, so swapping one in would replace one
+  render with another. `design/04-screenshots-needed.md` says exactly what to shoot.
+- **Portrait rows have a ragged bottom edge.** A phone screenshot is taller than the three lines
+  of text beside it, so the media column runs past the buttons by roughly 120 px. Narrowing the
+  well to 13 rem keeps the row readable as one unit and the screenshot legible; cropping would
+  square it off and is not allowed, which is the right trade.
+- **Chromium only**, still. No Safari, no Firefox, no physical device, no Lighthouse run.
+- **The page is ~8 KB heavier**, measured at 1280 px and DPR 1 against `main`: 182,120 → 190,101
+  bytes. HTML fell 2,175 and CSS rose 478; the images rose 9,696, because a photograph of a
+  screen compresses worse than the flat generated graphic it replaced. The portrait thumbnails
+  ship a single file with no intermediate srcset step, so a 1× desktop fetches a 480–640 px image
+  for a 208 px slot. Adding a 320w step would recover most of the 9 KB and is the obvious next
+  optimisation if the number matters.
+
+## Keyboard pass, re-run
+
+Scripted against the built site at 1280 px; nine assertions, all passing.
+
+| Check                                                                                               | Result |
+| --------------------------------------------------------------------------------------------------- | ------ |
+| First Tab reaches the skip link                                                                     | pass   |
+| Header order: brand → Projects → Skills → About → Contact → GitHub → LinkedIn → Download CV → theme | pass   |
+| The gold box tracks the focused element at a true 3 px offset                                       | pass   |
+| Disclosure expands to 8 rows and the label changes                                                  | pass   |
+| Collapsing returns focus to the button and flips `aria-expanded`                                    | pass   |
+| Enter opens the gallery and focus lands on Close                                                    | pass   |
+| Arrow keys step to "3 of 9" and the image is decoded                                                | pass   |
+| Escape closes the gallery and focus returns to the exact trigger                                    | pass   |
+| The ring is redrawn on the trigger after the dialog closes                                          | pass   |
